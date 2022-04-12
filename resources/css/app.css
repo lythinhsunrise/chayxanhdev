@@ -1,0 +1,15 @@
+.logo {
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    float: left;
+    padding: 0px;
+    margin: 0px;
+    width: 86px;
+    height: 86px;
+}
+
+.responsive {
+    width: 100%;
+    height: auto;
+}
