@@ -6,20 +6,25 @@ import '../css/app.css';
 import Client from './Client/Client';
 import Home from './Client/Home';
 import Login from './Client/Login';
+import Register from './Client/Register';
 import Cms from './Cms/Cms';
+import { AppProvider } from './store';
 
 function App() {
   return (
     <div className='App'>
-      <Routes>
-        <Route path='/' element={<Client />}>
-          <Route index element={<Home />}/>
-          <Route path='/login' element={<Login />}/>
-        </Route>
-        <Route path='/admin' element={<Cms />}>
+      <AppProvider>
+        <Routes>
+          <Route path='/' element={<Client />}>
+            <Route index element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Route>
+          <Route path='/admin' element={<Cms />}>
 
-        </Route>
-      </Routes>
+          </Route>
+        </Routes>
+      </AppProvider>
     </div>
   );
 }

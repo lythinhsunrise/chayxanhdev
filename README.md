@@ -11,3 +11,9 @@
 
 ## Laravel present ReactJS
 
+## Install
+.env
+php artisan key:generate
+composer install
+npm install
+npm run watch

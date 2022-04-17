@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAppStore } from '../store'
 
 const Cms = () => {
+  const [isLogin, setIsLogin] = useAppStore();
   const [isLoading, setIsLoading] = useState(true)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  console.log(isLogin)
+  // const [isLoggedIn, setIsLoggedIn] = useState(false)
   let navigate = useNavigate();
   //function check token
+
   return (
-    isLoggedIn ? <div>Cms</div> : (isLoading ? 'Loading...' : navigate('/'))
+    <>
+      {isLogin ? <div>Cms</div> : (isLoading ? 'Loading...' : navigate('/'))}
+    </>
   )
 }
 
