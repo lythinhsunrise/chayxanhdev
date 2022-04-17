@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Menu } from 'antd'
+import { Button, Layout, Menu } from 'antd'
 import { Link, Outlet } from 'react-router-dom'
 import 'antd/dist/antd.less'
 
@@ -11,6 +11,9 @@ const Client = () => {
       <Layout className="layout" style={{ minHeight: '100vh' }}>
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%', background: 'rgba(250,250,250,0.8)' }}>
           <div className="logo" />
+          <div className="login">
+            <Button type='primary'><Link to='/login'>Login</Link></Button>
+          </div>
           <Menu style={{ background: 'rgba(250,250,250,0)' }} mode="horizontal" defaultSelectedKeys={['home']}>
             <Menu.Item key="home">
               <Link to='/'>Trang chủ</Link>
