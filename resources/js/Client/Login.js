@@ -4,18 +4,22 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { openNotification } from '../Helpers/Notification';
+import { useAppStore } from '../store'
 
 const Login = () => {
   let navigate = useNavigate();
+  const { handleLogin } = useAppStore();
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values) => {
-    // console.log('Received values of form: ', values);
     setLoading(true)
     axios.post('/api/login', values)
       .then((response) => {
         setLoading(false)
-        if (response.data.status) navigate("/admin");
+        if (response.data.status) {
+          handleLogin(response.data.data.user)
+          navigate("/")
+        };
         openNotification(response.data);
       })
       .catch((error) => {

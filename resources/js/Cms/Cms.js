@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppStore } from '../store'
 
 const Cms = () => {
-  const [isLogin, setIsLogin] = useAppStore();
+  const {isLogin, setIsLogin} = useAppStore();
   const [isLoading, setIsLoading] = useState(true)
   console.log(isLogin)
   // const [isLoggedIn, setIsLoggedIn] = useState(false)
