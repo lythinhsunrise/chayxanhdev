@@ -1,19 +1,18 @@
 import { Avatar, Button, Dropdown, Layout, Menu } from 'antd';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
-import { useAppStore } from '../store'
+import { TodoListContext } from '../store';
 
 const { Header, Content, Footer } = Layout;
 
 const Client = () => {
-  const { globalUser } = useAppStore();
-  
+  const { user } = useContext(TodoListContext);
   const menu = (
     <Menu>
-      {globalUser.role_id ?
+      {user.role_id ?
         <Menu.Item key="0">
-          <Link to="/admin">Quản lý cửa hàng</Link>
+          <Link to="/admin">CMS</Link>
         </Menu.Item> : ''}
       <Menu.Item key="1">
         <Link to="/me">Thông tin cá nhân</Link>
@@ -36,11 +35,11 @@ const Client = () => {
             <Button type='primary'><Link to='/login'>Login</Link></Button>
           </div> */}
           <div className="login">
-            {!globalUser
+            {!user.role_id
               ? <Button type='primary'><Link to='/login'>Login</Link></Button>
               : <>
                 <Avatar icon={<UserOutlined />} />
-                {globalUser.name}
+                {user.name}
                 <Dropdown overlay={menu} trigger={['click']}>
                   <DownOutlined />
                 </Dropdown>

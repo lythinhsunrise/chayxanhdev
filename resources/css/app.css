@@ -9,6 +9,15 @@
     height: 86px;
 }
 
+.logo-admin {
+    background-image: url("../img/logo.png");
+    background-size: cover;
+    margin-left: 8px;
+    padding: 0px;
+    width: 60px;
+    height: 60px;
+}
+
 .responsive {
     width: 100%;
     height: auto;

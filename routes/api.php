@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 Route::post('/me/update', [AuthController::class, 'update'])->middleware(('auth:sanctum'));
+Route::get('/users/getlist', [UsersController::class, 'getlist'])->middleware('auth:sanctum');
+Route::get('/users/{id}', [UsersController::class, 'getitem'])->middleware('auth:sanctum');
