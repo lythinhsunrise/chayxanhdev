@@ -31,11 +31,8 @@ const Client = () => {
       <Layout className="layout" style={{ minHeight: '100vh' }}>
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%', background: 'rgba(250,250,250,0.8)' }}>
           <div className="logo" />
-          {/* <div className="login">
-            <Button type='primary'><Link to='/login'>Login</Link></Button>
-          </div> */}
           <div className="login">
-            {!user.role_id
+            {!user.id
               ? <Button type='primary'><Link to='/login'>Login</Link></Button>
               : <>
                 <Avatar icon={<UserOutlined />} />

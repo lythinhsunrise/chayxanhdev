@@ -3,19 +3,29 @@ import { Breadcrumb, Button, Table, Tag, Space, Image, Popconfirm, notification 
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { openNotification } from '../../Helpers/Notification';
 import { TodoListContext } from '../../store';
 
 const Users = () => {
   let navigate = useNavigate();
-  const { getListUsers } = useContext(TodoListContext);
+  const { getListUsers, deleteUser, user } = useContext(TodoListContext);
   const [users, setUsers] = useState();
   const [loadingTable, setLoadingTable] = useState(true);
   useEffect(() => {
+    console.log(user)
     getListUsers().then((response) => {
       setUsers(response.data.data)
       setLoadingTable(false)
     })
   }, [])
+
+  const role = [
+    { text: 'Khách hàng', value: 0 },
+    { text: 'Nhân viên', value: 1 },
+    { text: 'Quản lý chi nhánh', value: 2 },
+    { text: 'Quản lý tổng', value: 3 },
+  ]
+
   const columns = [
     {
       title: 'ID',
@@ -24,14 +34,9 @@ const Users = () => {
       width: 50,
     },
     {
-      title: 'Tên đăng nhập',
+      title: 'Username',
       dataIndex: 'username',
       key: 'username',
-    },
-    {
-      title: 'Họ Tên',
-      dataIndex: 'name',
-      key: 'name',
     },
     {
       title: 'Email',
@@ -47,6 +52,14 @@ const Users = () => {
       title: 'Quyền',
       dataIndex: 'role_id',
       key: 'role_id',
+      filters: role,
+      onFilter: (value, record) => record.role_id == value,
+      render: (role_id) => {
+        let role_text = role ? role.find(item => item.value == role_id) : null;
+        return (
+          <>{role_text ? role_text.text : ""}</>
+        );
+      }
     },
     {
       title: 'Chi nhánh',
@@ -61,7 +74,7 @@ const Users = () => {
       render: (text, record) => (
         <Space size="middle">
           <Button type="link" size="small" onClick={() => update(record)}><EditOutlined /></Button>
-          <Popconfirm title="Xóa món này?" placement="leftTop" onConfirm={() => remove(record)}>
+          <Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => remove(record)}>
             <Button type="link" size="small" danger><DeleteOutlined /></Button>
           </Popconfirm>
         </Space>
@@ -70,6 +83,15 @@ const Users = () => {
   ];
   const update = (record) => {
     navigate(`/admin/users/detail/${record.id}`)
+  }
+  const remove = (record) => {
+    setLoadingTable(true)
+    deleteUser(record.id).then((res) => {
+      let newUsers = users.filter(item => item.id !== record.id)
+      setUsers(newUsers)
+      openNotification(res.data);
+      setLoadingTable(false)
+    })
   }
   return (
     <>
@@ -81,7 +103,7 @@ const Users = () => {
         <Button type='primary' style={{ marginBottom: '16px' }}><Link to="/admin/users/detail">Thêm tài khoản</Link></Button>
         <Table
           bordered
-          scroll={{ x: 1000 }}
+          scroll={{ x: 980 }}
           columns={columns}
           dataSource={users}
           rowKey='id'

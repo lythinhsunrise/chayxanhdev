@@ -45,10 +45,19 @@ const Provider = ({ children }) => {
       dispatch({ type: actions.SET_USER, user });
     },
     getListUsers: () => {
-      return axios.get('/api/users/getlist', { headers: {"Authorization" : `Bearer ${initialState.user.access_token}`} })
+      return axios.get('/api/users/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
     getUserByID: (id) => {
-      return axios.get(`/api/users/${id}`, { headers: {"Authorization" : `Bearer ${initialState.user.access_token}`} })
+      return axios.get(`/api/users/${id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    storeUser: (values) => {
+      return axios.post(`/api/users`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateUser: (values) => {
+      return axios.post(`/api/users/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    deleteUser: (id) => {
+      return axios.post(`/api/users/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     }
   };
 

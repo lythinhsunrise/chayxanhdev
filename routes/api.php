@@ -27,3 +27,6 @@ Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 Route::post('/me/update', [AuthController::class, 'update'])->middleware(('auth:sanctum'));
 Route::get('/users/getlist', [UsersController::class, 'getlist'])->middleware('auth:sanctum');
 Route::get('/users/{id}', [UsersController::class, 'getitem'])->middleware('auth:sanctum');
+Route::post('/users', [UsersController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/users/update', [UsersController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/users/delete/{id}', [UsersController::class, 'delete'])->middleware('auth:sanctum');

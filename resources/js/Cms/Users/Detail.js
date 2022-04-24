@@ -5,6 +5,7 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TodoListContext } from '../../store';
+import { openNotification } from '../../Helpers/Notification';
 
 const formItemLayout = {
   labelCol: { span: 6 },
@@ -17,7 +18,7 @@ const DetailUser = () => {
   const [item, setItem] = useState({});
   const [loadingForm, setLoadingForm] = useState(false);
   const [form] = Form.useForm();
-  const { getUserByID } = useContext(TodoListContext);
+  const { getUserByID, storeUser, updateUser } = useContext(TodoListContext);
 
   const operations = <>
     <Button onClick={() => onSubmit()} type="primary" style={{ marginRight: 8 }} icon={<SaveOutlined />}>
@@ -28,81 +29,42 @@ const DetailUser = () => {
     </Button>
   </>;
 
-  const openNotification = (type, message) => {
-    notification[type]({
-      message: message,
-    });
-  };
-
   useEffect(() => {
     if (params.id) {
       setLoadingForm(true)
       getUserByID(params.id).then((res) => {
-        console.log(res.data.data)
         form.setFieldsValue(res.data.data)
         setItem(res.data.data)
         setLoadingForm(false)
       })
-      // axios.get(`/api/menu/${params.id}`)
-      //   .then(function (response) {
-      //     console.log(response);
-      //     form.setFieldsValue(response.data.data)
-      //     setPic(response.data.data.pic)
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   })
-      //   .then(function () {
-      //     setLoadingForm(false)
-      //   });
     }
   }, []);
 
   const onSubmit = () => {
-    form.validateFields().then((values) => {
-      setLoadingForm(true)
-      const formData = new FormData();
-      if (values.category) formData.append("category", values.category)
-      if (values.dinhduong) formData.append("dinhduong", values.dinhduong)
-      if (values.dinhduongEng) formData.append("dinhduongEng", values.dinhduongEng)
-      if (values.name) formData.append("name", values.name)
-      if (values.nameEng) formData.append("nameEng", values.nameEng)
-      if (values.price) formData.append("price", values.price)
-      if (values.thanhphan) formData.append("thanhphan", values.thanhphan)
-      if (values.thanhphanEng) formData.append("thanhphanEng", values.thanhphanEng)
-      if (values.upload) {
-        formData.append("upload", values.upload[0].originFileObj);
-      }
-      if (params.id) {
-        //update
-        axios.post(`/api/menu/${params.id}`, formData)
-          .then(function (response) {
-            setLoadingForm(false)
-            openNotification('success', 'Update món thành công')
-            navigate("/admin/menu")
-          })
-          .catch(function (error) {
-            console.log(error);
-            setLoadingForm(false)
-            openNotification('error', 'Update món thất bại')
-            navigate("/admin/menu")
-          });
-      } else {
-        //store
-        axios.post('/api/menu', formData)
-          .then(function (response) {
-            setLoadingForm(false)
-            openNotification('success', 'Thêm món thành công')
-            navigate("/admin/menu")
-          })
-          .catch(function (error) {
-            console.log(error);
-            setLoadingForm(false)
-            openNotification('error', 'Thêm món thất bại')
-            navigate("/admin/menu")
-          });
-      }
-    })
+    if (params.id) {
+      form.validateFields().then((values) => {
+        setLoadingForm(true)
+        values.id = params.id
+        updateUser(values).then(res => {
+          openNotification(res.data);
+          setLoadingForm(false)
+          if (res.data.status != "error") {
+            navigate("/admin/users")
+          }
+        })
+      })
+    } else {
+      form.validateFields().then((values) => {
+        setLoadingForm(true)
+        storeUser(values).then((res) => {
+          openNotification(res.data);
+          setLoadingForm(false)
+          if (res.data.status != "error") {
+            navigate("/admin/users")
+          }
+        })
+      })
+    }
   }
 
   return (
@@ -115,7 +77,7 @@ const DetailUser = () => {
         <Card
           size="small"
           title={
-            item.name ? <h3>{item.name}<br /><small>{item.uuid}</small></h3> : <h3>{'Tài khoản mới'}</h3>
+            item.name ? <h3>{item.name}<br /><small>{item.username}</small></h3> : <h3>{'Tài khoản mới'}</h3>
           }
           style={{ width: '100%' }}
           extra={operations}
@@ -146,12 +108,20 @@ const DetailUser = () => {
                     <Input placeholder="Please Input" />
                   </Form.Item>
                   <Form.Item
+                    label="Password"
+                    name="password"
+                    style={{ marginBottom: 15 }}
+                    rules={[{ required: item.id ? false : true, message: 'Please Input' }]}
+                  >
+                    <Input placeholder={item.id ? "Change Password..." : "Please Input"} />
+                  </Form.Item>
+                  <Form.Item
                     label="Email"
                     name="email"
                     style={{ marginBottom: 15 }}
-                    rules={[{ required: true, message: 'Please Input' }]}
+                    rules={[{ required: true, type: 'email', message: 'This is not a valid email!' }]}
                   >
-                    <Input placeholder="Please Input" />
+                    <Input type="email" placeholder="Please Input" />
                   </Form.Item>
                   <Form.Item
                     label="Phone"
@@ -159,7 +129,7 @@ const DetailUser = () => {
                     style={{ marginBottom: 15 }}
                     rules={[{ required: true, message: 'Please Input' }]}
                   >
-                    <Input placeholder="Please Input" />
+                    <Input type="number" placeholder="Please Input" />
                   </Form.Item>
                   <Form.Item
                     label="Quyền"
@@ -170,7 +140,7 @@ const DetailUser = () => {
                     <Select
                       optionFilterProp="children"
                     >
-                      <Select.Option key={1} value={null}>Khách hàng</Select.Option>
+                      <Select.Option key={1} value={0}>Khách hàng</Select.Option>
                       <Select.Option key={2} value={3}>Nhân viên</Select.Option>
                       <Select.Option key={3} value={2}>Quản lý chi nhánh</Select.Option>
                       <Select.Option key={4} value={1}>Quản lý tổng</Select.Option>
