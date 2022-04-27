@@ -41,7 +41,7 @@ const Cms = () => {
             <Link to="/admin">CMS</Link>
           </Menu.Item>
           <Menu.Item key="1" icon={<ProfileOutlined />}>
-            <Link to="/admin/menu">Quản lý món ăn</Link>
+            <Link to="/admin/menus">Quản lý món ăn</Link>
           </Menu.Item>
           <Menu.Item key="5" icon={<ProfileOutlined />}>
             <Link to="/admin/booking">Quản lý đặt bàn</Link>

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\StoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,9 @@ Route::get('/users/{id}', [UsersController::class, 'getitem'])->middleware('auth
 Route::post('/users', [UsersController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/users/update', [UsersController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/users/delete/{id}', [UsersController::class, 'delete'])->middleware('auth:sanctum');
+//Stores
+Route::get('/stores/getlist', [StoreController::class, 'getlist'])->middleware('auth:sanctum');
+Route::get('/stores/{id}', [StoreController::class, 'getitem'])->middleware('auth:sanctum');
+Route::post('/stores', [StoreController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/stores/update', [StoreController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/stores/delete/{id}', [StoreController::class, 'delete'])->middleware('auth:sanctum');

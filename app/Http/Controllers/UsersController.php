@@ -17,7 +17,6 @@ class UsersController extends Controller
             $user = User::all();
             return response()->json([
                 'status' => true,
-                'message' => 'Register successfully.',
                 'data' => $user,
             ]);
         } catch (\Exception $err) {

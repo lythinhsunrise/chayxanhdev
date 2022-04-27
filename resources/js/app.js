@@ -14,6 +14,9 @@ import Cms from './Cms/Cms';
 import Logout from './Logout';
 import Users from './Cms/Users/Users';
 import DetailUser from './Cms/Users/Detail';
+import Stores from './Cms/Stores/Stores';
+import DetailStore from './Cms/Stores/Detail';
+import Menu from './Cms/Menu/Menu';
 
 
 function App() {
@@ -35,6 +38,12 @@ function App() {
           <Route path='users' element={<Users />}/>
           <Route path='users/detail' element={<DetailUser />}/>
           <Route path='users/detail/:id' element={<DetailUser/>}/>
+          <Route path='stores' element={<Stores />}/>
+          <Route path='stores/detail' element={<DetailStore />}/>
+          <Route path='stores/detail/:id' element={<DetailStore/>}/>
+          <Route path='menus' element={<Menu />}/>
+          <Route path='menus/detail' element={<DetailStore />}/>
+          <Route path='menus/detail/:id' element={<DetailStore/>}/>
         </Route>
       </Routes>
     </div>

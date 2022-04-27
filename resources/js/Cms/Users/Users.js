@@ -1,29 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Breadcrumb, Button, Table, Tag, Space, Image, Popconfirm, notification } from 'antd'
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Popconfirm, Space, Table } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { openNotification } from '../../Helpers/Notification';
 import { TodoListContext } from '../../store';
 
 const Users = () => {
   let navigate = useNavigate();
-  const { getListUsers, deleteUser, user } = useContext(TodoListContext);
+  const { getListUsers, deleteUser, getListStores } = useContext(TodoListContext);
   const [users, setUsers] = useState();
   const [loadingTable, setLoadingTable] = useState(true);
+  const [stores, setStores] = useState();
   useEffect(() => {
-    console.log(user)
     getListUsers().then((response) => {
       setUsers(response.data.data)
+      setLoadingTable(false)
+    })
+    getListStores().then((response) => {
+      setStores(response.data.data)
       setLoadingTable(false)
     })
   }, [])
 
   const role = [
     { text: 'Khách hàng', value: 0 },
-    { text: 'Nhân viên', value: 1 },
+    { text: 'Nhân viên', value: 3 },
     { text: 'Quản lý chi nhánh', value: 2 },
-    { text: 'Quản lý tổng', value: 3 },
+    { text: 'Quản lý tổng', value: 1 },
   ]
 
   const columns = [
@@ -47,6 +50,7 @@ const Users = () => {
       title: 'SĐT',
       dataIndex: 'phone',
       key: 'phone',
+      width: 120,
     },
     {
       title: 'Quyền',
@@ -65,6 +69,12 @@ const Users = () => {
       title: 'Chi nhánh',
       dataIndex: 'store_id',
       key: 'store_id',
+      render: (store_id) => {
+        let store_text = stores ? stores.find(item => item.id == store_id) : null;
+        return (
+          <>{store_text ? store_text.name : ""}</>
+        );
+      }
     },
     {
       title: 'Action',

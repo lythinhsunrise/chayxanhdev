@@ -18,7 +18,8 @@ const DetailUser = () => {
   const [item, setItem] = useState({});
   const [loadingForm, setLoadingForm] = useState(false);
   const [form] = Form.useForm();
-  const { getUserByID, storeUser, updateUser } = useContext(TodoListContext);
+  const { getUserByID, storeUser, updateUser, getListStores } = useContext(TodoListContext);
+  const [stores, setStores] = useState();
 
   const operations = <>
     <Button onClick={() => onSubmit()} type="primary" style={{ marginRight: 8 }} icon={<SaveOutlined />}>
@@ -30,14 +31,18 @@ const DetailUser = () => {
   </>;
 
   useEffect(() => {
+    setLoadingForm(true)
     if (params.id) {
-      setLoadingForm(true)
       getUserByID(params.id).then((res) => {
         form.setFieldsValue(res.data.data)
         setItem(res.data.data)
         setLoadingForm(false)
       })
     }
+    getListStores().then((response) => {
+      setStores(response.data.data)
+      setLoadingForm(false)
+    })
   }, []);
 
   const onSubmit = () => {
@@ -154,7 +159,7 @@ const DetailUser = () => {
                     <Select
                       optionFilterProp="children"
                     >
-                      <Select.Option key={1} value={null}>Chi nhánh 1</Select.Option>
+                      {stores && stores.map((item) => <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>)}
                     </Select>
                   </Form.Item>
                 </Col>

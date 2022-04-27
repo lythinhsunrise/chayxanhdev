@@ -3,12 +3,10 @@ import { createContext, useContext, useEffect, useReducer, useState } from "reac
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : { role_id: '' },
-  users: [],
 };
 
 const actions = {
   SET_USER: "SET_USER",
-  GET_LIST_USERS: "GET_LIST_USERS",
 };
 
 const reducer = (state, action) => {
@@ -17,17 +15,6 @@ const reducer = (state, action) => {
       return {
         user: action.user,
       }
-    case actions.GET_LIST_USERS:
-      console.log(action)
-      // return {
-      //   ...state,
-      //   users: action.data,
-      // }
-      let newState = {
-        ...state,
-        users: action.data,
-      }
-      return newState
     default:
       return state;
   }
@@ -58,7 +45,23 @@ const Provider = ({ children }) => {
     },
     deleteUser: (id) => {
       return axios.post(`/api/users/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
-    }
+    },
+    // Stores
+    getListStores: () => {
+      return axios.get('/api/stores/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    getStoreByID: (id) => {
+      return axios.get(`/api/stores/${id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    storeStore: (values) => {
+      return axios.post(`/api/stores`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateStore: (values) => {
+      return axios.post(`/api/stores/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    deleteStore: (id) => {
+      return axios.post(`/api/stores/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
   };
 
   return (
