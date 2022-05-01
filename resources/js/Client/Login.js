@@ -4,10 +4,10 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { openNotification } from '../Helpers/Notification';
-import { TodoListContext } from '../store';
+import { AppContext } from '../store';
 
 const Login = () => {
-  const { setUser } = useContext(TodoListContext);
+  const { setUser } = useContext(AppContext);
   let navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 

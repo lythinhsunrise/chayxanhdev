@@ -26,3 +26,39 @@
 .login {
     float: right;
 }
+/* MenuHomeItem */
+.menuItemPic {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+.menuItem {
+    display: flex;
+}
+.menuItem p {
+    margin-bottom: 4px;
+    /* display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; */
+}
+.leftItem {
+    max-width: 250px;
+}
+.rightItem {
+    max-height: 250px;
+    padding-bottom: 4px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+@media only screen and (max-width: 580px) {
+    .menuItem {
+        flex-wrap: wrap;
+    }
+    .menuItemPic {
+        height: 100%;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+}

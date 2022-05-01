@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 
 const initialState = {
   user: JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : { role_id: '' },
@@ -20,7 +20,7 @@ const reducer = (state, action) => {
   }
 };
 
-export const TodoListContext = createContext();
+export const AppContext = createContext();
 
 const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -46,6 +46,13 @@ const Provider = ({ children }) => {
     deleteUser: (id) => {
       return axios.post(`/api/users/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    // Me
+    getMe: () => {
+      return axios.get(`/api/me`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateMe: (values) => {
+      return axios.post(`/api/me/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
     // Stores
     getListStores: () => {
       return axios.get('/api/stores/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
@@ -62,12 +69,28 @@ const Provider = ({ children }) => {
     deleteStore: (id) => {
       return axios.post(`/api/stores/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    //Menus
+    getListMenus: () => {
+      return axios.get('/api/menus/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    getMenuByID: (id) => {
+      return axios.get(`/api/menus/${id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    storeMenu: (values) => {
+      return axios.post(`/api/menus`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateMenu: (values) => {
+      return axios.post(`/api/menus/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    deleteMenu: (id) => {
+      return axios.post(`/api/menus/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
   };
 
   return (
-    <TodoListContext.Provider value={value}>
+    <AppContext.Provider value={value}>
       {children}
-    </TodoListContext.Provider>
+    </AppContext.Provider>
   );
 }
 

@@ -1,19 +1,21 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Popconfirm, Space, Table, Tag } from 'antd';
+import { Breadcrumb, Button, Image, Popconfirm, Space, Table, Tag } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { openNotification } from '../../Helpers/Notification';
-import { TodoListContext } from '../../store';
+import { AppContext } from '../../store';
 
 const Menu = () => {
   let navigate = useNavigate();
-  const { getListStores, deleteStore } = useContext(TodoListContext);
+  const { getListMenus, deleteMenu } = useContext(AppContext);
   const [data, setData] = useState();
-  const [loadingTable, setLoadingTable] = useState(false);
+  const [loadingTable, setLoadingTable] = useState(true);
   useEffect(() => {
-
+    getListMenus().then((response) => {
+      setData(response.data.data)
+      setLoadingTable(false)
+    })
   }, [])
-
   const columns = [
     {
       title: 'ID',
@@ -28,24 +30,24 @@ const Menu = () => {
     },
     {
       title: 'Thành phần',
-      dataIndex: 'thanhphan',
-      key: 'thanhphan',
+      dataIndex: 'ingredients',
+      key: 'ingredients',
     },
     {
       title: 'Ảnh',
       dataIndex: 'pic',
       key: 'pic',
       width: 130,
-      // render: pic => {
-      //   return (
-      //     <Image
-      //       width={80}
-      //       height={80}
-      //       // src="http://dev.chayxanh.com/images/menuItem-1.png"
-      //       src={pic ? process.env.MIX_APP_URL + '/images' + pic : process.env.MIX_APP_URL + '/images' + "/no-image.png"}
-      //     />
-      //   )
-      // }
+      render: pic => {
+        return (
+          <Image
+            width={40}
+            height={40}
+            preview={false}
+            src={APP_URL + '/images' + pic}
+          />
+        )
+      }
     },
     {
       title: 'Giá',
@@ -106,11 +108,11 @@ const Menu = () => {
     },
   ];
   const update = (record) => {
-    navigate(`/admin/stores/detail/${record.id}`)
+    navigate(`/admin/menus/detail/${record.id}`)
   }
   const remove = (record) => {
     setLoadingTable(true)
-    deleteStore(record.id).then((res) => {
+    deleteMenu(record.id).then((res) => {
       let newItems = data.filter(item => item.id !== record.id)
       setData(newItems)
       openNotification(res.data);
@@ -120,11 +122,11 @@ const Menu = () => {
   return (
     <>
       <Breadcrumb style={{ margin: '16px 0' }}>
-        <Breadcrumb.Item>Quản lý chi nhánh</Breadcrumb.Item>
+        <Breadcrumb.Item>Quản lý món ăn</Breadcrumb.Item>
         <Breadcrumb.Item>Danh sách</Breadcrumb.Item>
       </Breadcrumb>
       <div className="site-layout-background" style={{ padding: 16, minHeight: 480 }}>
-        <Button type='primary' style={{ marginBottom: '16px' }}><Link to="/admin/stores/detail">Thêm chi nhánh</Link></Button>
+        <Button type='primary' style={{ marginBottom: '16px' }}><Link to="/admin/menus/detail">Thêm món mới</Link></Button>
         <Table
           bordered
           scroll={{ x: 980 }}

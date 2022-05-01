@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { TodoListContext } from '../../store';
+import { AppContext } from '../../store';
 import { openNotification } from '../../Helpers/Notification';
 
 const formItemLayout = {
@@ -18,7 +18,7 @@ const DetailUser = () => {
   const [item, setItem] = useState({});
   const [loadingForm, setLoadingForm] = useState(false);
   const [form] = Form.useForm();
-  const { getUserByID, storeUser, updateUser, getListStores } = useContext(TodoListContext);
+  const { getUserByID, storeUser, updateUser, getListStores } = useContext(AppContext);
   const [stores, setStores] = useState();
 
   const operations = <>

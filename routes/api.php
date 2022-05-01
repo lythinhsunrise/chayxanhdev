@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,9 @@ Route::get('/stores/{id}', [StoreController::class, 'getitem'])->middleware('aut
 Route::post('/stores', [StoreController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/stores/update', [StoreController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/stores/delete/{id}', [StoreController::class, 'delete'])->middleware('auth:sanctum');
+//Menus
+Route::get('/menus/getlist', [MenuController::class, 'getlist'])->middleware('auth:sanctum');
+Route::get('/menus/{id}', [MenuController::class, 'getitem'])->middleware('auth:sanctum');
+Route::post('/menus', [MenuController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/menus/update', [MenuController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/menus/delete/{id}', [MenuController::class, 'delete'])->middleware('auth:sanctum');

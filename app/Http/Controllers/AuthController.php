@@ -98,7 +98,8 @@ class AuthController extends Controller
             'status' => true,
             'data' => [
                 'user' => $user,
-            ]
+            ],
+            'message' => 'Update info successfully!',
         ]);
     }
 }

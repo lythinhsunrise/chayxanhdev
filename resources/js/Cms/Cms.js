@@ -1,13 +1,12 @@
 import {
-  DesktopOutlined, ProfileOutlined, UserOutlined, LogoutOutlined, HomeOutlined, DownOutlined
+  DesktopOutlined, DownOutlined, HomeOutlined, ProfileOutlined, UserOutlined
 } from '@ant-design/icons';
-import { Avatar, Dropdown, Button, Layout, Menu } from 'antd';
-import React, { useContext, useState } from 'react';
+import { Avatar, Dropdown, Layout, Menu } from 'antd';
+import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { TodoListContext } from '../store';
+import { AppContext } from '../store';
 
 const { Header, Footer, Sider, Content } = Layout
-const { SubMenu } = Menu
 
 const menu = (
   <Menu>
@@ -27,7 +26,7 @@ const menu = (
 );
 
 const Cms = () => {
-  const { user } = useContext(TodoListContext);
+  const { user } = useContext(AppContext);
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
@@ -43,20 +42,17 @@ const Cms = () => {
           <Menu.Item key="1" icon={<ProfileOutlined />}>
             <Link to="/admin/menus">Quản lý món ăn</Link>
           </Menu.Item>
-          <Menu.Item key="5" icon={<ProfileOutlined />}>
-            <Link to="/admin/booking">Quản lý đặt bàn</Link>
-          </Menu.Item>
           <Menu.Item key="6" icon={<ProfileOutlined />}>
             <Link to="/admin/order">Quản lý đơn hàng</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<ProfileOutlined />}>
+            <Link to="/admin/booking">Quản lý đặt bàn</Link>
           </Menu.Item>
           <Menu.Item key="7" icon={<UserOutlined />}>
             <Link to="/admin/users">Quản lý tài khoản</Link>
           </Menu.Item>
           <Menu.Item key="8" icon={<HomeOutlined />}>
             <Link to="/admin/stores">Quản lý chi nhánh</Link>
-          </Menu.Item>
-          <Menu.Item key="4" icon={<LogoutOutlined />}>
-            <Link to='/logout'>Logout</Link>
           </Menu.Item>
         </Menu>
       </Sider>

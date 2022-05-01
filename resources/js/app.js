@@ -4,7 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Provider from './store';
 import 'antd/dist/antd.less';
 import '../css/app.css';
-import { TodoListContext } from './store';
+import { AppContext } from './store';
 //
 import Client from './Client/Client';
 import Home from './Client/Home';
@@ -17,11 +17,14 @@ import DetailUser from './Cms/Users/Detail';
 import Stores from './Cms/Stores/Stores';
 import DetailStore from './Cms/Stores/Detail';
 import Menu from './Cms/Menu/Menu';
+import DetailMenu from './Cms/Menu/Detail';
+import MenuHome from './Client/Menu';
+import Me from './Client/Me';
 
 
 function App() {
   function PrivateOutlet() {
-    const { user } = useContext(TodoListContext);
+    const { user } = useContext(AppContext);
     const auth = user.role_id ? user.role_id : false;
     return auth ? <Cms/> : <Navigate to="/" />;
   }
@@ -30,6 +33,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Client />}>
           <Route index element={<Home />} />
+          <Route path='/menu' element={<MenuHome />} />
+          <Route path='/me' element={<Me />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/logout' element={<Logout />} />
@@ -42,8 +47,8 @@ function App() {
           <Route path='stores/detail' element={<DetailStore />}/>
           <Route path='stores/detail/:id' element={<DetailStore/>}/>
           <Route path='menus' element={<Menu />}/>
-          <Route path='menus/detail' element={<DetailStore />}/>
-          <Route path='menus/detail/:id' element={<DetailStore/>}/>
+          <Route path='menus/detail' element={<DetailMenu />}/>
+          <Route path='menus/detail/:id' element={<DetailMenu/>}/>
         </Route>
       </Routes>
     </div>

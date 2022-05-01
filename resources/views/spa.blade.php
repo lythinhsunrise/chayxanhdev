@@ -7,6 +7,9 @@
         <title>ChayXanhDev</title>
         <link rel="icon" type="image/png" href="/images/logo.png"/>
         {{-- <link href="{{asset('css/index.css')}}" rel="stylesheet" type="text/css"> --}}
+        <script type="text/javascript">
+            const APP_URL = '{{env("APP_URL")}}';
+        </script>
     </head>
     <body>
         <div id="app"></div>

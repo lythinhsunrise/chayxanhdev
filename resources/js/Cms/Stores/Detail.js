@@ -3,7 +3,7 @@ import { Breadcrumb, Button, Card, Col, Form, Input, Row, Spin } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { openNotification } from '../../Helpers/Notification';
-import { TodoListContext } from '../../store';
+import { AppContext } from '../../store';
 
 const formItemLayout = {
   labelCol: { span: 6 },
@@ -16,7 +16,7 @@ const DetailStore = () => {
   const [item, setItem] = useState({});
   const [loadingForm, setLoadingForm] = useState(false);
   const [form] = Form.useForm();
-  const { getStoreByID, storeStore, updateStore } = useContext(TodoListContext);
+  const { getStoreByID, storeStore, updateStore } = useContext(AppContext);
 
   const operations = <>
     <Button onClick={() => onSubmit()} type="primary" style={{ marginRight: 8 }} icon={<SaveOutlined />}>

@@ -1,10 +1,10 @@
 import { Spin } from 'antd';
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { TodoListContext } from './store';
+import { AppContext } from './store';
 
 const Logout = () => {
-  const { setUser } = useContext(TodoListContext);
+  const { setUser } = useContext(AppContext);
   let navigate = useNavigate();
   useEffect(() => {
     localStorage.removeItem("user");

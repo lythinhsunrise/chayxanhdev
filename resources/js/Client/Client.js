@@ -2,12 +2,12 @@ import { Avatar, Button, Dropdown, Layout, Menu } from 'antd';
 import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { UserOutlined, DownOutlined } from '@ant-design/icons';
-import { TodoListContext } from '../store';
+import { AppContext } from '../store';
 
 const { Header, Content, Footer } = Layout;
 
 const Client = () => {
-  const { user } = useContext(TodoListContext);
+  const { user } = useContext(AppContext);
   const menu = (
     <Menu>
       {user.role_id ?

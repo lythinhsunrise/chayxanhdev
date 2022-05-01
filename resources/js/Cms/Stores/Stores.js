@@ -3,11 +3,11 @@ import { Breadcrumb, Button, Popconfirm, Space, Table } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { openNotification } from '../../Helpers/Notification';
-import { TodoListContext } from '../../store';
+import { AppContext } from '../../store';
 
 const Stores = () => {
   let navigate = useNavigate();
-  const { getListStores, deleteStore } = useContext(TodoListContext);
+  const { getListStores, deleteStore } = useContext(AppContext);
   const [data, setData] = useState();
   const [loadingTable, setLoadingTable] = useState(false);
   useEffect(() => {
