@@ -93,6 +93,9 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $user = User::findOrFail($request->input('id'));
+        if($request->input('password')){
+            $request['password'] = Hash::make($request->input('password'));
+        }
         $user->update($request->all());
         return response()->json([
             'status' => true,

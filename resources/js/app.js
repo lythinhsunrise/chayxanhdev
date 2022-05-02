@@ -20,6 +20,8 @@ import Menu from './Cms/Menu/Menu';
 import DetailMenu from './Cms/Menu/Detail';
 import MenuHome from './Client/Menu';
 import Me from './Client/Me';
+import Orders from './Cms/Orders/Orders';
+import DetailOrders from './Cms/Orders/Detail';
 
 
 function App() {
@@ -49,6 +51,9 @@ function App() {
           <Route path='menus' element={<Menu />}/>
           <Route path='menus/detail' element={<DetailMenu />}/>
           <Route path='menus/detail/:id' element={<DetailMenu/>}/>
+          <Route path='orders' element={<Orders />}/>
+          <Route path='orders/detail' element={<DetailOrders />}/>
+          <Route path='orders/detail/:id' element={<DetailOrders/>}/>
         </Route>
       </Routes>
     </div>

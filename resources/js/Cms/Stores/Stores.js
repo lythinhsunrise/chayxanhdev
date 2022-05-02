@@ -9,7 +9,7 @@ const Stores = () => {
   let navigate = useNavigate();
   const { getListStores, deleteStore } = useContext(AppContext);
   const [data, setData] = useState();
-  const [loadingTable, setLoadingTable] = useState(false);
+  const [loadingTable, setLoadingTable] = useState(true);
   useEffect(() => {
     getListStores().then((response) => {
       setData(response.data.data)

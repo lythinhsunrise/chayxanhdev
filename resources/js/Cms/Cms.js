@@ -43,7 +43,7 @@ const Cms = () => {
             <Link to="/admin/menus">Quản lý món ăn</Link>
           </Menu.Item>
           <Menu.Item key="6" icon={<ProfileOutlined />}>
-            <Link to="/admin/order">Quản lý đơn hàng</Link>
+            <Link to="/admin/orders">Quản lý đơn hàng</Link>
           </Menu.Item>
           <Menu.Item key="5" icon={<ProfileOutlined />}>
             <Link to="/admin/booking">Quản lý đặt bàn</Link>
