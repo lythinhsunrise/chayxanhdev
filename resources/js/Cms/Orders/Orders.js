@@ -19,27 +19,27 @@ const Orders = () => {
   const list_status_order = [
     {
       text: "Chờ xác nhận",
-      value: "0",
+      value: 0,
     },
     {
       text: "Đơn hàng mới",
-      value: "1",
+      value: 1,
     },
     {
       text: "Đang chuẩn bị",
-      value: "2",
+      value: 2,
     },
     {
       text: "Đang giao hàng",
-      value: "3",
+      value: 3,
     },
     {
       text: "Đã hoàn thành",
-      value: "4",
+      value: 4,
     },
     {
       text: "Đơn hàng bị hủy",
-      value: "5",
+      value: 5,
     },
   ]
 

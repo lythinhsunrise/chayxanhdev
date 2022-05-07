@@ -13,6 +13,6 @@
     </head>
     <body>
         <div id="app"></div>
-        <script src="{{asset('js/index.js')}}" ></script>
+        <script src="{{asset('js/index.js')}}?v=1.0" ></script>
     </body>
 </html>

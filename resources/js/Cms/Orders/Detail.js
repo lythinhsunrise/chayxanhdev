@@ -208,11 +208,11 @@ const DetailOrders = () => {
                       optionFilterProp="children"
                       showSearch
                     >
-                      <Select.Option key={1} value={1}>Đơn hàng mới</Select.Option>
-                      <Select.Option key={2} value={2}>Đang chuẩn bị</Select.Option>
-                      <Select.Option key={3} value={3}>Đang giao hàng</Select.Option>
-                      <Select.Option key={4} value={4}>Đã hoàn thành</Select.Option>
-                      <Select.Option key={5} value={5}>Đơn bị hủy</Select.Option>
+                      <Select.Option key="1" value="1">Đơn hàng mới</Select.Option>
+                      <Select.Option key="2" value="2">Đang chuẩn bị</Select.Option>
+                      <Select.Option key="3" value="3">Đang giao hàng</Select.Option>
+                      <Select.Option key="4" value="4">Đã hoàn thành</Select.Option>
+                      <Select.Option key="5" value="5">Đơn bị hủy</Select.Option>
                     </Select>
                   </Form.Item>
                   <Form.Item
