@@ -70,13 +70,13 @@ const Register = () => {
               >
                 <Input.Password/>
               </Form.Item>
-              {/* <Form.Item
+              <Form.Item
               label="Số điện thoại"
               name="phone"
               rules={[{ required: true, message: 'Please input your phone!' }]}
             >
-              <Input />
-            </Form.Item> */}
+              <Input type="number" />
+            </Form.Item>
               <Form.Item
                 label="Email"
                 name="email"

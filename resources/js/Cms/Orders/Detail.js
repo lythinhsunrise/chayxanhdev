@@ -6,11 +6,6 @@ import { openNotification } from '../../Helpers/Notification';
 import { AppContext } from '../../store';
 import MenuOrderItem from './MenuItem';
 
-const initialValues = {
-  category: 1,
-  price: "10000",
-}
-
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 17 },
@@ -22,11 +17,21 @@ const DetailOrders = () => {
   const [item, setItem] = useState({});
   const [loadingForm, setLoadingForm] = useState(false);
   const [form] = Form.useForm();
-  const { getListMenus, getListUsers, updateMenu } = useContext(AppContext);
+  const { getListMenus, getListUsers, updateOrder, storeOrder, user, getListStores, getOrderByID } = useContext(AppContext);
   const [itemMenu, setItemMenu] = useState('');
   const [visible, setVisible] = useState(false);
   const [orderD, setOrderD] = useState([]);
   const [users, setUsers] = useState([]);
+  const [isOrderHome, setIsOrderHome] = useState(false);
+  const [stores, setStores] = useState();
+  const [name, setName] = useState(null);
+
+  const initialValues = {
+    type_id: 0,
+    status_order: 1,
+    store_id: user.store_id,
+    status_order_id: 1,
+  }
 
   const showDrawer = () => {
     setVisible(true);
@@ -46,22 +51,26 @@ const DetailOrders = () => {
   </>;
 
   useEffect(() => {
-    // if (params.id) {
-    //   setLoadingForm(true)
-    //   getMenuByID(params.id).then((res) => {
-    //     form.setFieldsValue(res.data.data)
-    //     setPic(res.data.data.pic)
-    //     setItem(res.data.data)
-    //     setLoadingForm(false)
-    //   })
-    // }
     getListMenus().then((response) => {
       setItemMenu(response.data.data)
     })
     getListUsers().then((response) => {
       setUsers(response.data.data)
-      setLoadingForm(false)
     })
+    getListStores().then((response) => {
+      setStores(response.data.data)
+    })
+    if (params.id) {
+      setLoadingForm(true)
+      getOrderByID(params.id).then((res) => {
+        form.setFieldsValue(res.data.data)
+        setOrderD(JSON.parse(res.data.data.order_detail))
+        if(res.data.data.type_id === 1){
+          setIsOrderHome(!isOrderHome)
+        }
+        setLoadingForm(false)
+      })
+    }
   }, []);
 
   useEffect(() => {
@@ -69,42 +78,39 @@ const DetailOrders = () => {
     orderD.map(item => {
       sumTemp += item.price * item.qty
     })
-    form.setFieldsValue({money: sumTemp})
+    form.setFieldsValue({ money: sumTemp })
   }, [orderD]);
 
   const onSubmit = () => {
     form.validateFields().then((values) => {
+      let user_owner_id = user.id
+      values = { ...values, orderD, user_owner_id, name }
       setLoadingForm(true)
-      const formData = new FormData();
-      if (params.id) formData.append("id", params.id)
-      if (values.name) formData.append("name", values.name)
-      if (values.ingredients) formData.append("ingredients", values.ingredients)
-      if (values.nutrition) formData.append("nutrition", values.nutrition)
-      if (values.price) formData.append("price", values.price)
-      if (values.category) formData.append("category", values.category)
-      if (values.upload) {
-        formData.append("upload", values.upload[0].originFileObj);
-      }
       if (params.id) {
         //update
-        updateMenu(formData).then(function (res) {
+        let id = params.id
+        values = { ...values, id }
+        console.log(values)
+        updateOrder(values).then(function (res) {
           setLoadingForm(false)
           openNotification(res.data);
-          navigate("/admin/menus")
+          navigate("/admin/orders")
         })
       } else {
         //store
-        storeMenu(formData).then(function (res) {
+        storeOrder(values).then(function (res) {
           setLoadingForm(false)
           openNotification(res.data);
-          navigate("/admin/menus")
+          navigate("/admin/orders")
         })
       }
     })
   }
 
   function onChange(value) {
-    form.setFieldsValue(users[value])
+    setName(users[value].name)
+    form.setFieldsValue({phone: users[value].phone})
+    form.setFieldsValue({address: users[value].address})
   }
 
   return (
@@ -134,32 +140,53 @@ const DetailOrders = () => {
               <Row>
                 <Col xs={24} xl={12}>
                   <Form.Item
-                    label="Người dùng"
-                    name="user"
+                    label="Loại đơn hàng"
+                    name="type_id"
                     style={{ marginBottom: 15 }}
                   >
                     <Select
                       optionFilterProp="children"
-                      onChange={onChange}
                       showSearch
+                      onChange={() => setIsOrderHome(!isOrderHome)}
                     >
-                      {users && users.map((item, index) => <Select.Option key={item.id} value={index}>{item.name}</Select.Option>)}
+                      <Select.Option key={0} value={0}>Tại cửa hàng</Select.Option>
+                      <Select.Option key={1} value={1}>Đặt mang về</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item
-                    label="Phone"
-                    name="phone"
-                    style={{ marginBottom: 15 }}
-                  >
-                    <InputNumber style={{ width: '100%' }} placeholder="Please Input"/>
-                  </Form.Item>
-                  <Form.Item
-                    label="Địa chỉ"
-                    name="address"
-                    style={{ marginBottom: 15 }}
-                  >
-                    <Input placeholder="Please Input" />
-                  </Form.Item>
+                  {isOrderHome && <>
+                    <Form.Item
+                      label="Người dùng"
+                      name="user_order_id"
+                      style={{ marginBottom: 15 }}
+                    >
+                      <Select
+                        optionFilterProp="children"
+                        onChange={onChange}
+                        showSearch
+                        placeholder="Chọn người dùng..."
+                        allowClear
+                      >
+                        {users && users.map((item, index) => <Select.Option key={item.id} value={index}>{item.name}</Select.Option>)}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      label="Phone"
+                      name="phone"
+                      style={{ marginBottom: 15 }}
+                      rules={[{ required: true, message: 'Please Input' }]}
+                    >
+                      <InputNumber style={{ width: '100%' }} placeholder="Please Input" />
+                    </Form.Item>
+                    <Form.Item
+                      label="Địa chỉ"
+                      name="address"
+                      style={{ marginBottom: 15 }}
+                      rules={[{ required: true, message: 'Please Input' }]}
+                    >
+                      <Input placeholder="Please Input" />
+                    </Form.Item>
+                  </>
+                  }
                   <Form.Item
                     label="Tổng tiền"
                     name="money"
@@ -171,6 +198,33 @@ const DetailOrders = () => {
                       parser={value => value.replace(/VND\s?|(,*)/g, '')}
                       step={1000}
                     />
+                  </Form.Item>
+                  <Form.Item
+                    label="Trạng thái"
+                    name="status_order_id"
+                    style={{ marginBottom: 15 }}
+                  >
+                    <Select
+                      optionFilterProp="children"
+                      showSearch
+                    >
+                      <Select.Option key={1} value={1}>Đơn hàng mới</Select.Option>
+                      <Select.Option key={2} value={2}>Đang chuẩn bị</Select.Option>
+                      <Select.Option key={3} value={3}>Đang giao hàng</Select.Option>
+                      <Select.Option key={4} value={4}>Đã hoàn thành</Select.Option>
+                      <Select.Option key={5} value={5}>Đơn bị hủy</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Chi nhánh"
+                    name="store_id"
+                    style={{ marginBottom: 15 }}
+                  >
+                    <Select
+                      optionFilterProp="children"
+                    >
+                      {stores && stores.map((item) => <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>)}
+                    </Select>
                   </Form.Item>
                 </Col>
               </Row>

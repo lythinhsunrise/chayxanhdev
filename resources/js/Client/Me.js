@@ -57,7 +57,7 @@ const Me = () => {
                 name="username"
                 rules={[{ required: true, message: 'Please input your name!' }]}
               >
-                <Input />
+                <Input disabled/>
               </Form.Item>
               <Form.Item
                 label="Phone"
@@ -65,6 +65,13 @@ const Me = () => {
                 rules={[{ required: true, message: 'Please input your phone!' }]}
               >
                 <Input type="number" />
+              </Form.Item>
+              <Form.Item
+                label="Địa chỉ"
+                name="address"
+                rules={[{ required: true, message: 'Please input your address!' }]}
+              >
+                <Input />
               </Form.Item>
               <Form.Item
                 label="Email"
@@ -86,6 +93,7 @@ const Me = () => {
               </Form.Item>
             </Form>
           </Spin>
+          <i>Cập nhật thông tin đầy đủ hệ thống sẽ giúp bạn đặt đơn hàng nhanh hơn!</i>
         </Card>
       </Col>
     </Row>

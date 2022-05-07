@@ -137,6 +137,14 @@ const DetailUser = () => {
                     <Input type="number" placeholder="Please Input" />
                   </Form.Item>
                   <Form.Item
+                    label="Địa chỉ"
+                    name="address"
+                    style={{ marginBottom: 15 }}
+                    rules={[{ required: true, message: 'Please Input' }]}
+                  >
+                    <Input placeholder="Please Input" />
+                  </Form.Item>
+                  <Form.Item
                     label="Quyền"
                     name="role_id"
                     style={{ marginBottom: 15 }}

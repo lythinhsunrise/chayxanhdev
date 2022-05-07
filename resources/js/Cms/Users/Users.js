@@ -37,6 +37,12 @@ const Users = () => {
       width: 50,
     },
     {
+      title: 'Họ tên',
+      dataIndex: 'name',
+      key: 'name',
+      ellipsis: true,
+    },
+    {
       title: 'Username',
       dataIndex: 'username',
       key: 'username',
@@ -45,6 +51,7 @@ const Users = () => {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+      ellipsis: true,
     },
     {
       title: 'SĐT',
@@ -56,6 +63,7 @@ const Users = () => {
       title: 'Quyền',
       dataIndex: 'role_id',
       key: 'role_id',
+      width: 120,
       filters: role,
       onFilter: (value, record) => record.role_id == value,
       render: (role_id) => {

@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            // $table->string('email')->nullable();
             $table->bigInteger('phone')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -26,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('access_token')->nullable();
             $table->smallInteger('role_id')->nullable();
             $table->smallInteger('store_id')->nullable();
+            $table->string('address')->nullable();
         });
     }
 

@@ -1,9 +1,12 @@
 import { Button, Col, InputNumber } from 'antd'
-import { map } from 'lodash';
 import React, { useContext, useState } from 'react'
 
 const MenuOrderItem = ({ item, setOrderD, orderD }) => {
-  const [quantity, setQuantity] = useState(null);
+  let OrderDetail
+  orderD.map((o, index) => {
+    if(o.id == item.id) OrderDetail = orderD[index];
+  })
+  const [quantity, setQuantity] = useState(OrderDetail ? OrderDetail.qty : null);
   const onChange = (value) => {
     setQuantity(value)
     let orderDetail = {

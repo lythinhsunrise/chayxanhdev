@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Popconfirm, Space, Table } from 'antd';
+import { Tag, Breadcrumb, Button, Popconfirm, Space, Table } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { openNotification } from '../../Helpers/Notification';
@@ -7,35 +7,39 @@ import { AppContext } from '../../store';
 
 const Orders = () => {
   let navigate = useNavigate();
-  const { getListStores, deleteStore } = useContext(AppContext);
+  const { getListOrders, deleteOrder } = useContext(AppContext);
   const [data, setData] = useState();
   const [loadingTable, setLoadingTable] = useState(false);
   useEffect(() => {
-    // getListStores().then((response) => {
-    //   setData(response.data.data)
-    //   setLoadingTable(false)
-    // })
+    getListOrders().then((response) => {
+      setData(response.data.data)
+      setLoadingTable(false)
+    })
   }, [])
   const list_status_order = [
     {
-      text: "1",
-      value: "Chờ duyệt",
+      text: "Chờ xác nhận",
+      value: "0",
     },
     {
-      text: "1",
-      value: "Đang chuẩn bị",
+      text: "Đơn hàng mới",
+      value: "1",
     },
     {
-      text: "1",
-      value: "Chờ giao hàng",
+      text: "Đang chuẩn bị",
+      value: "2",
     },
     {
-      text: "1",
-      value: "Đang giao hàng",
+      text: "Đang giao hàng",
+      value: "3",
     },
     {
-      text: "1",
-      value: "Hoàn thành đơn",
+      text: "Đã hoàn thành",
+      value: "4",
+    },
+    {
+      text: "Đơn hàng bị hủy",
+      value: "5",
     },
   ]
 
@@ -47,9 +51,38 @@ const Orders = () => {
       width: 50,
     },
     {
+      title: 'Loại đơn hàng',
+      dataIndex: 'type_id',
+      key: 'type_id',
+      render: (record) => {
+        if(record === 0) return "Tại nhà hàng" 
+        if(record === 1) return "Giao hàng" 
+      }
+    },
+    {
       title: 'Trạng thái',
-      dataIndex: 'status_order',
-      key: 'status_order',
+      dataIndex: 'status_order_id',
+      filters: list_status_order,
+      width: 150,
+      onFilter: (value, record) => record.status_order_id == value,
+      render: (value, record) => {
+        if(record.status_order_id === 0) return <Tag color="purple">Chờ xác nhận</Tag>
+        if(record.status_order_id === 1) return <Tag color="blue">Đơn hàng mới</Tag>
+        if(record.status_order_id === 2) return <Tag color="gold">Đang chuẩn bị</Tag>
+        if(record.status_order_id === 3) return <Tag color="lime">Đang giao hàng</Tag>
+        if(record.status_order_id === 4) return <Tag color="green">Đã hoàn thành</Tag>
+        if(record.status_order_id === 5) return <Tag color="red">Đơn hàng bị hủy</Tag>
+      }
+    },
+    {
+      title: 'Tổng tiền',
+      dataIndex: 'money',
+      key: 'money',
+      ellipsis: true,
+      render: (record) => {
+        record = `${record ? record : 0} VND`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return record
+      }
     },
     {
       title: 'Tên',
@@ -68,8 +101,14 @@ const Orders = () => {
     },
     {
       title: 'Thời gian tạo đơn',
-      dataIndex: 'time',
-      key: 'time',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      ellipsis: true,
+      render: (text, record) => {
+        let str = record.created_at;
+        str = str.substring(0, str.length - 8);
+        return str
+      }
     },
     {
       title: 'Action',
@@ -91,7 +130,7 @@ const Orders = () => {
   }
   const remove = (record) => {
     setLoadingTable(true)
-    deleteStore(record.id).then((res) => {
+    deleteOrder(record.id).then((res) => {
       let newItems = data.filter(item => item.id !== record.id)
       setData(newItems)
       openNotification(res.data);

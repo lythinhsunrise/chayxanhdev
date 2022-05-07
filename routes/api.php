@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,8 +40,14 @@ Route::post('/stores', [StoreController::class, 'store'])->middleware('auth:sanc
 Route::post('/stores/update', [StoreController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/stores/delete/{id}', [StoreController::class, 'delete'])->middleware('auth:sanctum');
 //Menus
-Route::get('/menus/getlist', [MenuController::class, 'getlist'])->middleware('auth:sanctum');
+Route::get('/menus/getlist', [MenuController::class, 'getlist']);
 Route::get('/menus/{id}', [MenuController::class, 'getitem'])->middleware('auth:sanctum');
 Route::post('/menus', [MenuController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/menus/update', [MenuController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/menus/delete/{id}', [MenuController::class, 'delete'])->middleware('auth:sanctum');
+//Orders
+Route::get('/orders/getlist', [OrderController::class, 'getlist'])->middleware('auth:sanctum');
+Route::get('/orders/{id}', [OrderController::class, 'getitem'])->middleware('auth:sanctum');
+Route::post('/orders', [OrderController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/orders/update', [OrderController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->middleware('auth:sanctum');

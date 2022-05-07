@@ -65,6 +65,7 @@ class UsersController extends Controller
             $user->phone = $request->phone;
             $user->role_id = $request->role_id ? $request->role_id : null;
             $user->store_id = $request->store_id ? $request->store_id : null;
+            $user->address = $request->address ? $request->address : null;
             $result = $user->save();
             $token = $user->createToken('auth_token')->plainTextToken;
             $user->access_token = $token;

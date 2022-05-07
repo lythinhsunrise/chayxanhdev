@@ -56,9 +56,7 @@ const Menu = () => {
       width: 120,
       render: (record) => {
         record = `VND ${record}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-        return (
-          <p>{record}</p>
-        )
+        return record
       }
     },
     {

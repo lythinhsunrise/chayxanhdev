@@ -85,6 +85,22 @@ const Provider = ({ children }) => {
     deleteMenu: (id) => {
       return axios.post(`/api/menus/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    //Orders
+    getListOrders: () => {
+      return axios.get('/api/orders/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    getOrderByID: (id) => {
+      return axios.get(`/api/orders/${id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    storeOrder: (values) => {
+      return axios.post(`/api/orders`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateOrder: (values) => {
+      return axios.post(`/api/orders/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    deleteOrder: (id) => {
+      return axios.post(`/api/orders/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
   };
 
   return (

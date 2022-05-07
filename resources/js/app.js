@@ -22,6 +22,8 @@ import MenuHome from './Client/Menu';
 import Me from './Client/Me';
 import Orders from './Cms/Orders/Orders';
 import DetailOrders from './Cms/Orders/Detail';
+import Booking from './Cms/Booking/Booking';
+import MyOrder from './Client/MyOrder';
 
 
 function App() {
@@ -37,6 +39,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/menu' element={<MenuHome />} />
           <Route path='/me' element={<Me />} />
+          <Route path='/my-order' element={<MyOrder />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/logout' element={<Logout />} />
@@ -54,6 +57,9 @@ function App() {
           <Route path='orders' element={<Orders />}/>
           <Route path='orders/detail' element={<DetailOrders />}/>
           <Route path='orders/detail/:id' element={<DetailOrders/>}/>
+          <Route path='booking' element={<Booking />}/>
+          <Route path='booking/detail' element={<Booking />}/>
+          <Route path='booking/detail/:id' element={<Booking/>}/>
         </Route>
       </Routes>
     </div>
