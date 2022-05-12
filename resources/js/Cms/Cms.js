@@ -7,6 +7,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { AppContext } from '../store';
 
 const { Header, Footer, Sider, Content } = Layout
+const { SubMenu } = Menu;
 
 const menu = (
   <Menu>
@@ -45,6 +46,14 @@ const Cms = () => {
           <Menu.Item key="6" icon={<ProfileOutlined />}>
             <Link to="/admin/orders">Quản lý đơn hàng</Link>
           </Menu.Item>
+          <SubMenu
+            key="sub1"
+            icon={<ProfileOutlined />}
+            title="Quản lý đơn hàng"
+          >
+            <Menu.Item key="sub1-1">Tại cửa hàng</Menu.Item>
+            <Menu.Item key="sub1-2">Đặt mang đi</Menu.Item>
+          </SubMenu>
           <Menu.Item key="5" icon={<ProfileOutlined />}>
             <Link to="/admin/booking">Quản lý đặt bàn</Link>
           </Menu.Item>
