@@ -5,8 +5,8 @@ import { openNotification } from '../Helpers/Notification';
 import { AppContext } from '../store';
 
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 4 },
+  wrapperCol: { span: 20 },
 };
 const Me = () => {
   let navigate = useNavigate();
@@ -26,65 +26,62 @@ const Me = () => {
       updateMe(values).then((res) => {
         openNotification(res.data);
         setLoading(false)
-        navigate("/");
+        navigate("/logout");
       })
     })
   };
 
   return (
     <Row>
-      <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 6 }}>
+      <Col xs={{ span: 20, offset: 2 }} lg={{ span: 16, offset: 4 }}>
         <br />
         <Card title="Thông tin tài khoản" bordered={false}>
           <Spin tip="Loading..." spinning={loading}>
             <Form
               {...layout}
-              labelAlign="left"
+              // labelAlign="left"
               layout='horizontal'
               form={form}
               onFinish={onFinish}
             >
               <Form.Item name="id" hidden><Input /></Form.Item>
               <Form.Item
+                label="Username"
+                name="username"
+              >
+                <Input bordered={false} disabled/>
+              </Form.Item>
+              <Form.Item
                 label="Tên"
                 name="name"
                 rules={[{ required: true, message: 'Please input your name!' }]}
               >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[{ required: true, message: 'Please input your name!' }]}
-              >
-                <Input disabled/>
+                <Input bordered={false} placeholder="..."/>
               </Form.Item>
               <Form.Item
                 label="Phone"
                 name="phone"
                 rules={[{ required: true, message: 'Please input your phone!' }]}
               >
-                <Input type="number" />
+                <Input bordered={false} placeholder="..."/>
               </Form.Item>
               <Form.Item
                 label="Địa chỉ"
                 name="address"
-                rules={[{ required: true, message: 'Please input your address!' }]}
               >
-                <Input />
+                <Input.TextArea bordered={false} placeholder="..."/>
               </Form.Item>
               <Form.Item
                 label="Email"
                 name="email"
-                rules={[{ required: true, message: 'Please input your email!' }]}
               >
-                <Input type="email" />
+                <Input bordered={false} type="email" placeholder="..."/>
               </Form.Item>
               <Form.Item
                 label="Đổi mật khẩu"
                 name="password"
               >
-                <Input.Password/>
+                <Input.Password bordered={false} placeholder="..."/>
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">

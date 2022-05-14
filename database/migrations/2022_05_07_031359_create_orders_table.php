@@ -25,6 +25,9 @@ class CreateOrdersTable extends Migration
             $table->integer('user_owner_id')->nullable();
             $table->integer('store_id')->nullable();
             $table->string('name')->nullable();
+            $table->smallInteger('payment_id')->nullable();
+            $table->boolean('payment_status')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

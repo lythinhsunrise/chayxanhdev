@@ -11,6 +11,7 @@ class OrderController extends Controller
     public function getlist()
     {
         $data = Order::orderBy('id', 'DESC')->get();
+        // $data = Order::where('type_id', '1')->orderBy('id', 'DESC')->get();
         return response()->json([
             'status' => true,
             'data' => $data,
@@ -23,7 +24,7 @@ class OrderController extends Controller
         if (is_null($item)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Menu not found',
+                'message' => 'Order not found',
             ]);
         }
         return response()->json([
@@ -41,16 +42,20 @@ class OrderController extends Controller
             $new->phone = $request->phone ? $request->phone : null;
             $new->address = $request->address ? $request->address : null;
             $new->money = $request->money ? $request->money : null;
-            $new->status_order_id = $request->status_order_id ? $request->status_order_id : null;
+            $new->status_order_id = $request->status_order_id ? $request->status_order_id : 0;
             $new->order_detail = $request->orderD ? json_encode($request->orderD) : json_encode([]);
             $new->user_owner_id = $request->user_owner_id ? $request->user_owner_id : null;
             $new->store_id = $request->store_id ? $request->store_id : null;
             $new->name = $request->name ? $request->name : null;
+            $new->payment_id = $request->payment_id ? $request->payment_id : 0;
+            $new->payment_status = $request->payment_status ? $request->payment_status : 0;
+            $new->notes = $request->notes ? $request->notes : null;
             $result = $new->save();
             if ($result) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Create new Order successfully!',
+                    'data' => $new->id
                 ]);
             }
         } catch (\Exception $err) {
@@ -87,6 +92,15 @@ class OrderController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Delete successfully!',
+        ]);
+    }
+
+    public function order_by_user($user_id = null)
+    {
+        $data = Order::where('user_order_id', $user_id)->orderBy('id', 'DESC')->get();
+        return response()->json([
+            'status' => true,
+            'data' => $data,
         ]);
     }
 }

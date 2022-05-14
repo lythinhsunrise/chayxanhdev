@@ -16,8 +16,9 @@ class AuthController extends Controller
         try {
             $validatedData = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                // 'email' => 'required|string|email|max:255|unique:users',
                 'username' => 'required|unique:users',
+                'phone' => 'required|unique:users',
                 'password' => 'required|string',
             ]);
 
@@ -30,7 +31,7 @@ class AuthController extends Controller
 
             $user = User::create([
                 'name' => $request['name'],
-                'email' => $request['email'],
+                'email' => isset($request['email']) ? $request['email'] : $request['email'],
                 'username' => $request['username'],
                 'phone' => $request['phone'],
                 'password' => Hash::make($request['password']),
@@ -58,20 +59,24 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (!Auth::attempt($request->only('username', 'password'))) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Wrong username or password.'
-            ]);
+        if (!Auth::attempt($request->only('username','password'))) {
+            if (!Auth::attempt(["phone" => $request['username'], "password" => $request['password']])){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Wrong username/phone number or password.'
+                ]);
+            }
+            $user = User::where('phone', $request['username'])->firstOrFail();
         }
 
-        $user = User::where('username', $request['username'])->firstOrFail();
+        $user = isset($user) ? $user : User::where('username', $request['username'])->firstOrFail();
 
         // $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'status' => true,
-            'message' => 'Welcome back '.$user->name,
+            // 'message' => 'Welcome back '.$user->name,
+            'message' => "Login successfully",
             'data' => [
                 'user' => $user,
             ]
@@ -103,7 +108,7 @@ class AuthController extends Controller
             'data' => [
                 'user' => $user,
             ],
-            'message' => 'Update info successfully!',
+            'message' => 'Update info successfully! Please login again!',
         ]);
     }
 }

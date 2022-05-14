@@ -47,6 +47,7 @@ Route::post('/menus/update', [MenuController::class, 'update'])->middleware('aut
 Route::post('/menus/delete/{id}', [MenuController::class, 'delete'])->middleware('auth:sanctum');
 //Orders
 Route::get('/orders/getlist', [OrderController::class, 'getlist'])->middleware('auth:sanctum');
+Route::get('/orders/order_by_user/{id}', [OrderController::class, 'order_by_user'])->middleware('auth:sanctum');
 Route::get('/orders/{id}', [OrderController::class, 'getitem'])->middleware('auth:sanctum');
 Route::post('/orders', [OrderController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/orders/update', [OrderController::class, 'update'])->middleware('auth:sanctum');

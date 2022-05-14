@@ -8,7 +8,7 @@ const Logout = () => {
   let navigate = useNavigate();
   useEffect(() => {
     localStorage.removeItem("user");
-    setUser({ role_id: '' });
+    setUser({ role_id: null });
     navigate("/");
   }, [])
 

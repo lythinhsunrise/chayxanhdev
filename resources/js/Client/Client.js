@@ -25,7 +25,7 @@ const Client = () => {
         <Link to="/me">Thông tin cá nhân</Link>
       </Menu.Item>
       <Menu.Item key="2">
-        <Link to="/my-order">Thông tin đơn hàng</Link>
+        <Link to="/my-order">Đơn hàng của tôi</Link>
       </Menu.Item>
       <Menu.Item key="3">
         <Link to="/logout">Log out</Link>

@@ -7,7 +7,7 @@ import { openNotification } from '../Helpers/Notification';
 import { AppContext } from '../store';
 
 const Login = () => {
-  const { setUser } = useContext(AppContext);
+  const { setUser, cart_length } = useContext(AppContext);
   let navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,11 @@ const Login = () => {
         if (response.data.status) {
           localStorage.setItem("user", JSON.stringify(response.data.data.user))
           setUser(response.data.data.user)
-          navigate("/")
+          if(cart_length>0){
+            navigate("/my-cart")
+          } else {
+            navigate("/")
+          }
         };
         openNotification(response.data);
       })
@@ -41,9 +45,9 @@ const Login = () => {
             >
               <Form.Item
                 name="username"
-                rules={[{ required: true, message: 'Please input your Username!' }]}
+                rules={[{ required: true, message: 'Please input your Username / Phone number!' }]}
               >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username / Phone number" />
               </Form.Item>
               <Form.Item
                 name="password"

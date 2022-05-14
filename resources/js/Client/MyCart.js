@@ -1,7 +1,9 @@
-import { Button, Card, Col, Empty, Form, Input, Radio, Row, Spin } from 'antd'
-import React, { useContext, useState } from 'react'
+import { Button, Card, Col, Empty, Form, Input, Modal, Radio, Result, Row, Spin } from 'antd'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../store';
 import ItemCart from './components/ItemCart';
+import { openNotification } from '../Helpers/Notification';
+import { Link, useNavigate } from 'react-router-dom';
 
 const layout = {
   labelCol: { span: 8 },
@@ -14,14 +16,44 @@ const radioStyle = {
 
 const MyCart = () => {
   const [loading, setLoading] = useState(false);
-  const { user, cart, money, cart_length } = useContext(AppContext);
+  let navigate = useNavigate();
+  const { user, cart, money, cart_length, storeOrder, resetCart } = useContext(AppContext);
   const [form] = Form.useForm();
   const [payment, setPayment] = useState(1);
+  const [visible, setVisible] = useState(false);
+  const [orderID, setOrderID] = useState(null);
+
+  useEffect(() => {
+    if (user.id) {
+      form.setFieldsValue(user)
+    }
+  }, [])
+
+  const onClose = () => {
+    setVisible(false);
+    navigate("/menu");
+  };
+
   const onFinish = () => {
-    console.log('asd');
+    form.validateFields().then((values) => {
+      values = {
+        ...values, orderD: cart, payment_id: payment, payment_status: 0,
+        type_id: 1, money, status_order_id: 0, user_order_id: values.id
+      }
+      console.log(values)
+      storeOrder(values).then((res) => {
+        if (res.data.status == true) {
+          setOrderID(res.data.data);
+          setVisible(true);
+          resetCart();
+        }
+      })
+    })
+    if (!user.id) {
+      openNotification({ status: false, message: 'Please login to order your food!' });
+    }
   };
   const onChange = e => {
-    console.log('radio checked', e.target.value);
     setPayment(e.target.value)
   };
   return (
@@ -59,7 +91,7 @@ const MyCart = () => {
                     name="address"
                     rules={[{ required: true, message: 'Please input your address!' }]}
                   >
-                    <Input bordered={false} placeholder="..." />
+                    <Input.TextArea bordered={false} placeholder="..." />
                   </Form.Item>
                   <Form.Item
                     label="Ghi chú"
@@ -85,10 +117,10 @@ const MyCart = () => {
                   <Radio style={radioStyle} value={2}>
                     Chuyển khoản cho cửa hàng
                     {payment == 2 ? <>
-                      <p style={{marginBottom: '0'}}>- STK: 19036286551012</p>
-                      <p style={{marginBottom: '0'}}>- Ten chu tai khoan: LE HONG SON</p>
-                      <p style={{marginBottom: '0'}}>- Ngan hang: Techcombank</p>
-                      <p style={{marginBottom: '0'}}>- Chi nhanh: Ho chi Minh</p>
+                      <p style={{ marginBottom: '0' }}>- STK: 19036286551012</p>
+                      <p style={{ marginBottom: '0' }}>- Ten chu tai khoan: LE HONG SON</p>
+                      <p style={{ marginBottom: '0' }}>- Ngan hang: Techcombank</p>
+                      <p style={{ marginBottom: '0' }}>- Chi nhanh: Ho chi Minh</p>
                     </> : null}
                   </Radio>
                 </Radio.Group>
@@ -98,6 +130,26 @@ const MyCart = () => {
               </Col>
             </Row>
           </Spin>
+          <Modal
+            title="Thông báo"
+            visible={visible}
+            footer={null}
+            onCancel={onClose}
+          >
+            <Result
+              status="success"
+              title="Đặt món thành công!"
+              subTitle={`Đơn hàng của bạn đã được tiếp nhận nhân viên sẽ liên hệ với bạn trong giây lát ... Mã đơn hàng #${orderID}`}
+              extra={[
+                <Button type="primary" key="console">
+                  <Link to="/my-order">
+                    Xem đơn hàng
+                  </Link>
+                </Button>,
+                // <Button key="buy">Buy Again</Button>,
+              ]}
+            />,
+          </Modal>
         </Card>
       </Col>
     </Row>

@@ -13,12 +13,14 @@ const actions = {
   ADD_CART: "ADD_CART",
   SUM_MONEY: "SUM_MONEY",
   MINUS_CART: "MINUS_CART",
+  RESET_CART: "RESET_CART",
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case actions.SET_USER:
       return {
+        ...state, 
         user: action.user,
       }
     case actions.SUM_MONEY:
@@ -87,6 +89,9 @@ const reducer = (state, action) => {
         let newState = {...state, cart: newArr}
         return newState
       }
+    case actions.RESET_CART:
+      let newState = {...state, cart: [], cart_length: 0,money: 0}
+      return newState
     default:
       return state;
   }
@@ -114,6 +119,10 @@ const Provider = ({ children }) => {
       dispatch({ type: actions.MINUS_CART, data });
       dispatch({ type: actions.SUM_MONEY });
     },
+    resetCart: () => {
+      dispatch({ type: actions.RESET_CART });
+    },
+    //Users
     getListUsers: () => {
       return axios.get('/api/users/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
@@ -184,6 +193,9 @@ const Provider = ({ children }) => {
     deleteOrder: (id) => {
       return axios.post(`/api/orders/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    orderByUser: (id) => {
+      return axios.get(`/api/orders/order_by_user/${id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    }
   };
 
   return (
