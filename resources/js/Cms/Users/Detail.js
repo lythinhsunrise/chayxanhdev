@@ -124,7 +124,6 @@ const DetailUser = () => {
                     label="Email"
                     name="email"
                     style={{ marginBottom: 15 }}
-                    rules={[{ required: true, type: 'email', message: 'This is not a valid email!' }]}
                   >
                     <Input type="email" placeholder="Please Input" />
                   </Form.Item>
@@ -140,7 +139,6 @@ const DetailUser = () => {
                     label="Địa chỉ"
                     name="address"
                     style={{ marginBottom: 15 }}
-                    rules={[{ required: true, message: 'Please Input' }]}
                   >
                     <Input placeholder="Please Input" />
                   </Form.Item>

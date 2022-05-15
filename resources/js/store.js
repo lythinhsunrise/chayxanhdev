@@ -20,7 +20,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case actions.SET_USER:
       return {
-        ...state, 
+        ...state,
         user: action.user,
       }
     case actions.SUM_MONEY:
@@ -30,7 +30,7 @@ const reducer = (state, action) => {
         sumTemp += item.price * item.qty
         sumpLength += item.qty
       })
-      return {...state, money: sumTemp, cart_length: sumpLength}
+      return { ...state, money: sumTemp, cart_length: sumpLength }
     case actions.ADD_CART:
       // console.log(action.data)
       let orderDetail = {
@@ -42,12 +42,12 @@ const reducer = (state, action) => {
       }
       let i = -1;
       state.cart.map((itemD, index) => {
-        if(itemD.id == orderDetail.id){
+        if (itemD.id == orderDetail.id) {
           i = index
         }
       })
-      if(i < 0){
-        let newState = {...state, cart: [...state.cart, orderDetail]}
+      if (i < 0) {
+        let newState = { ...state, cart: [...state.cart, orderDetail] }
         return newState
       } else {
         orderDetail = {
@@ -59,18 +59,18 @@ const reducer = (state, action) => {
         }
         let newArr = [...state.cart];
         newArr[i] = orderDetail;
-        newArr[i].qty = newArr[i].qty +1
-        let newState = {...state, cart: newArr}
+        newArr[i].qty = newArr[i].qty + 1
+        let newState = { ...state, cart: newArr }
         return newState
       }
     case actions.MINUS_CART:
       state.cart.map((itemD, index) => {
-        if(itemD.id == action.data.id){
+        if (itemD.id == action.data.id) {
           i = index
         }
       })
-      if(i < 0){
-        let newState = {...state, cart: [...state.cart, orderDetail]}
+      if (i < 0) {
+        let newState = { ...state, cart: [...state.cart, orderDetail] }
         return newState
       } else {
         orderDetail = {
@@ -83,14 +83,14 @@ const reducer = (state, action) => {
         let newArr = [...state.cart];
         newArr[i] = orderDetail;
         newArr[i].qty = newArr[i].qty - 1
-        if(newArr[i].qty == 0) {
+        if (newArr[i].qty == 0) {
           newArr = state.cart.filter((itemD) => itemD.id !== orderDetail.id)
         }
-        let newState = {...state, cart: newArr}
+        let newState = { ...state, cart: newArr }
         return newState
       }
     case actions.RESET_CART:
-      let newState = {...state, cart: [], cart_length: 0,money: 0}
+      let newState = { ...state, cart: [], cart_length: 0, money: 0 }
       return newState
     default:
       return state;
@@ -178,7 +178,10 @@ const Provider = ({ children }) => {
       return axios.post(`/api/menus/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
     //Orders
-    getListOrders: () => {
+    getListOrders: (type_id) => {
+      if (type_id === 0 || type_id === 1) {
+        return axios.get(`/api/orders/getlist?type_id=${type_id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+      }
       return axios.get('/api/orders/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
     getOrderByID: (id) => {
@@ -195,7 +198,20 @@ const Provider = ({ children }) => {
     },
     orderByUser: (id) => {
       return axios.get(`/api/orders/order_by_user/${id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
-    }
+    },
+    //Qtyfoods
+    getListQtyFoods: (store_id) => {
+      if (store_id) {
+        return axios.get(`/api/qtyfoods/getlist?store_id=${store_id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+      }
+      return axios.get('/api/qtyfoods/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    storeQtyFood: (values) => {
+      return axios.post(`/api/qtyfoods`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateQtyFood: (values) => {
+      return axios.post(`/api/qtyfoods/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
   };
 
   return (

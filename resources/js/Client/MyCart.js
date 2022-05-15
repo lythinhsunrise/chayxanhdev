@@ -1,4 +1,4 @@
-import { Button, Card, Col, Empty, Form, Input, Modal, Radio, Result, Row, Spin } from 'antd'
+import { Button, Card, Col, Empty, Form, Input, Modal, Radio, Result, Row, Select, Spin } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../store';
 import ItemCart from './components/ItemCart';
@@ -17,16 +17,20 @@ const radioStyle = {
 const MyCart = () => {
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
-  const { user, cart, money, cart_length, storeOrder, resetCart } = useContext(AppContext);
+  const { user, cart, money, cart_length, storeOrder, resetCart, getListStores } = useContext(AppContext);
   const [form] = Form.useForm();
   const [payment, setPayment] = useState(1);
   const [visible, setVisible] = useState(false);
   const [orderID, setOrderID] = useState(null);
+  const [stores, setStores] = useState();
 
   useEffect(() => {
     if (user.id) {
       form.setFieldsValue(user)
     }
+    getListStores().then((response) => {
+      setStores(response.data.data)
+    })
   }, [])
 
   const onClose = () => {
@@ -92,6 +96,19 @@ const MyCart = () => {
                     rules={[{ required: true, message: 'Please input your address!' }]}
                   >
                     <Input.TextArea bordered={false} placeholder="..." />
+                  </Form.Item>
+                  <Form.Item
+                    label="Chi nhánh"
+                    name="store_id"
+                    style={{ marginBottom: 15 }}
+                    rules={[{ required: true, message: 'Hãy chọn chi nhánh gần bạn!' }]}
+                  >
+                    <Select
+                      optionFilterProp="children"
+                      placeholder="Hãy chọn chi nhánh gần bạn!"
+                    >
+                      {stores && stores.map((item) => <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>)}
+                    </Select>
                   </Form.Item>
                   <Form.Item
                     label="Ghi chú"

@@ -18,4 +18,4 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // Route::view('/{path?}', 'spa');
-Route::view('/{path?}', 'spa')->where('path', '[a-zA-Z0-9-/]+');
+Route::view('/{path?}', 'spa')->where('path', '[a-zA-Z0-9-_/]+');

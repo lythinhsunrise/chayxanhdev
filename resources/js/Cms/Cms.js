@@ -40,19 +40,35 @@ const Cms = () => {
           <Menu.Item key="0" icon={<DesktopOutlined />}>
             <Link to="/admin">CMS</Link>
           </Menu.Item>
-          <Menu.Item key="1" icon={<ProfileOutlined />}>
+          <SubMenu
+            key="menus"
+            icon={<ProfileOutlined />}
+            title="Quản lý món ăn"
+          >
+            <Menu.Item key="menus-1">
+              <Link to="/admin/menus">Thực đơn</Link>
+            </Menu.Item>
+            <Menu.Item key="menus-2">
+              <Link to="/admin/foods_qty">Số lượng món ăn</Link>
+            </Menu.Item>
+          </SubMenu>
+          {/* <Menu.Item key="1" icon={<ProfileOutlined />}>
             <Link to="/admin/menus">Quản lý món ăn</Link>
-          </Menu.Item>
-          <Menu.Item key="6" icon={<ProfileOutlined />}>
+          </Menu.Item> */}
+          {/* <Menu.Item key="6" icon={<ProfileOutlined />}>
             <Link to="/admin/orders">Quản lý đơn hàng</Link>
-          </Menu.Item>
+          </Menu.Item> */}
           <SubMenu
             key="sub1"
             icon={<ProfileOutlined />}
             title="Quản lý đơn hàng"
           >
-            <Menu.Item key="sub1-1">Tại cửa hàng</Menu.Item>
-            <Menu.Item key="sub1-2">Đặt mang đi</Menu.Item>
+            <Menu.Item key="sub1-1">
+              <Link to="/admin/orders_store">Tại cửa hàng</Link>
+            </Menu.Item>
+            <Menu.Item key="sub1-2">
+              <Link to="/admin/orders_home">Đặt mang đi</Link>
+            </Menu.Item>
           </SubMenu>
           <Menu.Item key="5" icon={<ProfileOutlined />}>
             <Link to="/admin/booking">Quản lý đặt bàn</Link>

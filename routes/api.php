@@ -7,6 +7,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\QtyfoodController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ Route::post('/users', [UsersController::class, 'store'])->middleware('auth:sanct
 Route::post('/users/update', [UsersController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/users/delete/{id}', [UsersController::class, 'delete'])->middleware('auth:sanctum');
 //Stores
-Route::get('/stores/getlist', [StoreController::class, 'getlist'])->middleware('auth:sanctum');
+Route::get('/stores/getlist', [StoreController::class, 'getlist']);
 Route::get('/stores/{id}', [StoreController::class, 'getitem'])->middleware('auth:sanctum');
 Route::post('/stores', [StoreController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/stores/update', [StoreController::class, 'update'])->middleware('auth:sanctum');
@@ -46,9 +47,13 @@ Route::post('/menus', [MenuController::class, 'store'])->middleware('auth:sanctu
 Route::post('/menus/update', [MenuController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/menus/delete/{id}', [MenuController::class, 'delete'])->middleware('auth:sanctum');
 //Orders
-Route::get('/orders/getlist', [OrderController::class, 'getlist'])->middleware('auth:sanctum');
+Route::get('/orders/getlist', [OrderController::class, 'getlist']);
 Route::get('/orders/order_by_user/{id}', [OrderController::class, 'order_by_user'])->middleware('auth:sanctum');
 Route::get('/orders/{id}', [OrderController::class, 'getitem'])->middleware('auth:sanctum');
 Route::post('/orders', [OrderController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/orders/update', [OrderController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->middleware('auth:sanctum');
+//QtyFoods
+Route::get('/qtyfoods/getlist', [QtyfoodController::class, 'getlist'])->middleware('auth:sanctum');
+Route::post('/qtyfoods', [QtyfoodController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/qtyfoods/update', [QtyfoodController::class, 'update'])->middleware('auth:sanctum');

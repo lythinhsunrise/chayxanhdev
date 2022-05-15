@@ -3,15 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Qtyfood;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     //
-    public function getlist()
+    public function getlist(Request $request)
     {
-        $data = Order::orderBy('id', 'DESC')->get();
-        // $data = Order::where('type_id', '1')->orderBy('id', 'DESC')->get();
+        $type_id = $request->query('type_id');
+        if ($type_id == null) {
+            //All orders
+            $data = Order::orderBy('id', 'DESC')->get();
+        } else if ($type_id == '0') {
+            //Orders in store
+            $data = Order::where('type_id', '0')->orderBy('id', 'DESC')->get();
+        } else if ($type_id == '1') {
+            //Orders home
+            $data = Order::where('type_id', '1')->orderBy('id', 'DESC')->get();
+        }
         return response()->json([
             'status' => true,
             'data' => $data,
@@ -51,6 +61,15 @@ class OrderController extends Controller
             $new->payment_status = $request->payment_status ? $request->payment_status : 0;
             $new->notes = $request->notes ? $request->notes : null;
             $result = $new->save();
+            //Them mon qty
+            if (isset($request->orderD)) {
+                foreach ($request->orderD as $item) {
+                    $num = $item['qty'];
+                    $item = Qtyfood::where(['id_food' => $item['id'], 'id_store' => $request['store_id']])->orderBy('id', 'DESC')->first();
+                    $item['qty'] = $item['qty'] - $num;
+                    $item->update(['qty' => $item['qty']]);
+                }
+            }
             if ($result) {
                 return response()->json([
                     'status' => true,
@@ -68,11 +87,41 @@ class OrderController extends Controller
 
     public function update(Request $request)
     {
-        $item = Order::findOrFail($request->input('id'));
+        $itemOrder = Order::findOrFail($request->input('id'));
         try {
-            $request['order_detail'] = $request->orderD ? json_encode($request->orderD) : json_encode([]);
+            // update qty
+            if (isset($request->orderD)) {
+                $request['order_detail'] = $request->orderD ? json_encode($request->orderD) : json_encode([]);
+                foreach ($request->orderD as $item) {
+                    if (isset($item['oldQty'])) {
+                        if ($item['oldQty'] != $item['qty']) {
+                            //Tra mon
+                            if ($item['oldQty'] > $item['qty']) {
+                                $num = $item['oldQty'] - $item['qty'];
+                                $item = Qtyfood::where(['id_food' => $item['id'], 'id_store' => $request['store_id']])->orderBy('id', 'DESC')->first();
+                                $item['qty'] = $item['qty'] + $num;
+                                $item->update(['qty' => $item['qty']]);
+                            }
+                            //Goi them mon
+                            else if ($item['oldQty'] < $item['qty']) {
+                                $num = $item['qty'] - $item['oldQty'];
+                                $item = Qtyfood::where(['id_food' => $item['id'], 'id_store' => $request['store_id']])->orderBy('id', 'DESC')->first();
+                                $item['qty'] = $item['qty'] - $num;
+                                $item->update(['qty' => $item['qty']]);
+                            }
+                        }
+                    } else {
+                        //Them mon
+                        $num = $item['qty'];
+                        $item = Qtyfood::where(['id_food' => $item['id'], 'id_store' => $request['store_id']])->orderBy('id', 'DESC')->first();
+                        $item['qty'] = $item['qty'] - $num;
+                        $item->update(['qty' => $item['qty']]);
+                    }
+                }
+            }
+            // dd($request->orderD);
             unset($request['orderD']);
-            $item->update($request->all());
+            $itemOrder->update($request->all());
             return response()->json([
                 'status' => true,
                 'message' => 'Update successfully!',

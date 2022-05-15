@@ -25,6 +25,11 @@ import DetailOrders from './Cms/Orders/Detail';
 import Booking from './Cms/Booking/Booking';
 import MyOrder from './Client/MyOrder';
 import MyCart from './Client/MyCart';
+import OrdersStore from './Cms/Orders/OrdersStore/OrdersStore';
+import DetailOrderStore from './Cms/Orders/OrdersStore/Detail';
+import FoodsQty from './Cms/Menu/FoodsQty/FoodsQty';
+import OrdersHome from './Cms/Orders/OrdersHome/OrdersHome';
+import DetailOrderHome from './Cms/Orders/OrdersHome/Detail';
 
 
 function App() {
@@ -56,9 +61,16 @@ function App() {
           <Route path='menus' element={<Menu />}/>
           <Route path='menus/detail' element={<DetailMenu />}/>
           <Route path='menus/detail/:id' element={<DetailMenu/>}/>
+          <Route path='foods_qty' element={<FoodsQty />}/>
           <Route path='orders' element={<Orders />}/>
           <Route path='orders/detail' element={<DetailOrders />}/>
           <Route path='orders/detail/:id' element={<DetailOrders/>}/>
+          <Route path='orders_store' element={<OrdersStore />}/>
+          <Route path='orders_store/detail' element={<DetailOrderStore />}/>
+          <Route path='orders_store/detail/:id' element={<DetailOrderStore/>}/>
+          <Route path='orders_home' element={<OrdersHome />}/>
+          <Route path='orders_home/detail' element={<DetailOrderHome />}/>
+          <Route path='orders_home/detail/:id' element={<DetailOrderHome/>}/>
           <Route path='booking' element={<Booking />}/>
           <Route path='booking/detail' element={<Booking />}/>
           <Route path='booking/detail/:id' element={<Booking/>}/>
