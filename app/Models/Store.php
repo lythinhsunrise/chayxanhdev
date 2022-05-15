@@ -9,4 +9,8 @@ class Store extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        'private_room' => 'integer',
+        'seats' => 'integer',
+    ];
 }

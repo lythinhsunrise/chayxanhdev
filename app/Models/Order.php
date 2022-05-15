@@ -11,5 +11,10 @@ class Order extends Model
     protected $guarded = [];
     protected $casts = [
         'store_id' => 'integer',
+        'payment_id' => 'integer',
+        'payment_status' => 'integer',
+        'status_order_id' => 'integer',
+        'type_id' => 'integer',
+        'user_owner_id' => 'integer',
     ];
 }
