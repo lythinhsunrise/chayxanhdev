@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\MenuController;
@@ -57,3 +58,7 @@ Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->middlewa
 Route::get('/qtyfoods/getlist', [QtyfoodController::class, 'getlist'])->middleware('auth:sanctum');
 Route::post('/qtyfoods', [QtyfoodController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/qtyfoods/update', [QtyfoodController::class, 'update'])->middleware('auth:sanctum');
+//Booking
+Route::get('/booking/getlist', [BookingController::class, 'getlist'])->middleware('auth:sanctum');
+Route::post('/booking', [BookingController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/booking/update', [BookingController::class, 'update'])->middleware('auth:sanctum');

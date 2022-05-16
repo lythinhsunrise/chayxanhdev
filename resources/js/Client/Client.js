@@ -61,7 +61,9 @@ const Client = () => {
             <Menu.Item key="menu">
               <Link to='/menu'>Menu</Link>
             </Menu.Item>
-            <Menu.Item key="booking">Đặt bàn</Menu.Item>
+            <Menu.Item key="booking">
+              <Link to='/booking'>Đặt bàn</Link>
+            </Menu.Item>
             <Menu.Item key="about">Giới thiệu</Menu.Item>
           </Menu>
         </Header>
@@ -80,8 +82,8 @@ const Client = () => {
           {cart.map((item, index) => <ItemCart key={index} item={item} />)}
           {cart_length ? <>
             <h4>Tổng cộng: {money}</h4>
-            <Button style={{width: '100%'}} type='primary' onClick={onClose}><Link to="/my-cart">Đặt món ngay</Link></Button>
-          </> : <Empty description="Chưa có món nào, hãy thêm món ngay nào ..."/>}
+            <Button style={{ width: '100%' }} type='primary' onClick={onClose}><Link to="/my-cart">Đặt món ngay</Link></Button>
+          </> : <Empty description="Chưa có món nào, hãy thêm món ngay nào ..." />}
         </Drawer>
       </Layout>
     </>

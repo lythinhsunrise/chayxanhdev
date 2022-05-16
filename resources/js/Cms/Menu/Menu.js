@@ -79,15 +79,20 @@ const Menu = () => {
         },
       ],
       onFilter: (value, record) => record.category.indexOf(value) === 0,
-      render: category => {
-        let color = 'gray';
-        category === 'Món Chính' ? color = 'green' : color = 'geekblue'
-        category === 'Món Đặc Biệt' ? color = 'yellow' : color
-        return (
-          <Tag color={color}>
-            {category}
-          </Tag>
-        )
+      // render: category => {
+      //   let color = 'gray';
+      //   category === 'Món Chính' ? color = 'green' : color = 'geekblue'
+      //   category === 'Món Đặc Biệt' ? color = 'yellow' : color
+      //   return (
+      //     <Tag color={color}>
+      //       {category}
+      //     </Tag>
+      //   )
+      // }
+      render: (value, record) => {
+        if (record.category === 1) return <Tag color="purple">Món Khai Vị</Tag>
+        if (record.category === 2) return <Tag color="green">Món Chính</Tag>
+        if (record.category === 3) return <Tag color="yellow">Món Đặc Biệt</Tag>
       }
     },
     {

@@ -212,6 +212,19 @@ const Provider = ({ children }) => {
     updateQtyFood: (values) => {
       return axios.post(`/api/qtyfoods/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    //Bookings
+    getListBookings: (store_id) => {
+      if (store_id) {
+        return axios.get(`/api/booking/getlist?store_id=${store_id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+      }
+      return axios.get('/api/booking/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    storeBooking: (values) => {
+      return axios.post(`/api/booking`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateBooking: (values) => {
+      return axios.post(`/api/booking/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
   };
 
   return (
