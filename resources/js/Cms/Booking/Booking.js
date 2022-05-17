@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, CheckSquareOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Popconfirm, Space, Table, Tag } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { AppContext } from '../../store';
 
 const Booking = () => {
   let navigate = useNavigate();
-  const { getListBookings, deleteStore, user } = useContext(AppContext);
+  const { getListBookings, deleteBooking, user, updateBooking } = useContext(AppContext);
   const [data, setData] = useState();
   const [loadingTable, setLoadingTable] = useState(true);
   useEffect(() => {
@@ -22,7 +22,7 @@ const Booking = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      width: 50, 
+      width: 50,
     },
     {
       title: 'Trạng thái',
@@ -37,6 +37,7 @@ const Booking = () => {
       title: 'Tên KH',
       dataIndex: 'name',
       key: 'name',
+      width: 160
     },
     {
       title: 'SĐT',
@@ -65,7 +66,9 @@ const Booking = () => {
       fixed: 'right',
       render: (text, record) => (
         <Space size="middle">
-          <Button type="link" size="small" onClick={() => update(record)}><EditOutlined /></Button>
+          {record.status === 0 && <Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => update(record)}>
+            <Button type="link" size="small" ><CheckSquareOutlined /></Button>
+          </Popconfirm>}
           <Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => remove(record)}>
             <Button type="link" size="small" danger><DeleteOutlined /></Button>
           </Popconfirm>
@@ -74,16 +77,21 @@ const Booking = () => {
     },
   ];
   const update = (record) => {
-    // navigate(`/admin/stores/detail/${record.id}`)
+    setLoadingTable(true)
+    record.status = 1
+    updateBooking(record).then((res) => {
+      openNotification(res.data);
+      setLoadingTable(false)
+    })
   }
   const remove = (record) => {
-    // setLoadingTable(true)
-    // deleteStore(record.id).then((res) => {
-    //   let newItems = data.filter(item => item.id !== record.id)
-    //   setData(newItems)
-    //   openNotification(res.data);
-    //   setLoadingTable(false)
-    // })
+    setLoadingTable(true)
+    deleteBooking(record.id).then((res) => {
+      let newItems = data.filter(item => item.id !== record.id)
+      setData(newItems)
+      openNotification(res.data);
+      setLoadingTable(false)
+    })
   }
   return (
     <>

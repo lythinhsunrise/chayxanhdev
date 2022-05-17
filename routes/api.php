@@ -62,3 +62,4 @@ Route::post('/qtyfoods/update', [QtyfoodController::class, 'update'])->middlewar
 Route::get('/booking/getlist', [BookingController::class, 'getlist'])->middleware('auth:sanctum');
 Route::post('/booking', [BookingController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/booking/update', [BookingController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/booking/delete/{id}', [BookingController::class, 'delete'])->middleware('auth:sanctum');

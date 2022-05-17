@@ -49,4 +49,31 @@ class BookingController extends Controller
             ]);
         }
     }
+
+    public function update(Request $request)
+    {
+        $item = Booking::findOrFail($request->input('id'));
+        try {
+            $item->update($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Update successfully!',
+            ]);
+        } catch (\Exception $err) {
+            return response()->json([
+                'status' => false,
+                'message' => $err->getMessage()
+            ]);
+        }
+    }
+
+    public function delete($id)
+    {
+        $user = Booking::findOrFail($id);
+        $user->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Delete successfully!',
+        ]);
+    }
 }

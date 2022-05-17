@@ -225,6 +225,9 @@ const Provider = ({ children }) => {
     updateBooking: (values) => {
       return axios.post(`/api/booking/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    deleteBooking: (id) => {
+      return axios.post(`/api/booking/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
   };
 
   return (
