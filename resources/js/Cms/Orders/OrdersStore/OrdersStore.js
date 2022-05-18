@@ -7,10 +7,14 @@ import { AppContext } from '../../../store';
 
 const OrdersStore = () => {
   let navigate = useNavigate();
-  const { getListOrders, deleteOrder } = useContext(AppContext);
+  const { getListOrders, deleteOrder, getListUsers } = useContext(AppContext);
   const [data, setData] = useState();
   const [loadingTable, setLoadingTable] = useState(false);
+  const [users, setUsers] = useState();
   useEffect(() => {
+    getListUsers().then((response) => {
+      setUsers(response.data.data)
+    })
     getListOrders(0).then((response) => {
       setData(response.data.data)
       setLoadingTable(false)
@@ -59,6 +63,17 @@ const OrdersStore = () => {
       title: 'Notes',
       dataIndex: 'notes',
       key: 'notes',
+    },
+    {
+      title: 'Nhân viên',
+      dataIndex: 'user_owner_id',
+      key: 'user_owner_id',
+      render: (user_id) => {
+        let user_text = users ? users.find(item => item.id == user_id) : null;
+        return (
+          <>{user_text ? user_text.name : ""}</>
+        );
+      }
     },
     {
       title: 'Thời gian tạo đơn',

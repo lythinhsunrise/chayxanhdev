@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -13,18 +14,30 @@ class UsersController extends Controller
     //
     public function getlist()
     {
-        try {
-            $user = User::all();
-            return response()->json([
-                'status' => true,
-                'data' => $user,
-            ]);
-        } catch (\Exception $err) {
-            return response()->json([
-                'status' => false,
-                'message' => $err->getMessage()
-            ]);
+        // try {
+        //     $user = User::all();
+        //     return response()->json([
+        //         'status' => true,
+        //         'data' => $user,
+        //     ]);
+        // } catch (\Exception $err) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => $err->getMessage()
+        //     ]);
+        // }
+        $store_id = request()->user()->store_id;
+        if($store_id == null){
+            //All User
+            $data = User::orderBy('id', 'DESC')->get();
+        } else if ($store_id) {
+            //User in store_id
+            $data = User::where('store_id', $store_id)->orderBy('id', 'DESC')->get();
         }
+        return response()->json([
+            'status' => true,
+            'data' => $data,
+        ]);
     }
 
     public function getitem($id)
@@ -48,9 +61,10 @@ class UsersController extends Controller
         try {
             $validatedData = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                // 'email' => 'required|string|email|max:255|unique:users',
                 'username' => 'required|unique:users',
-                'password' => 'required|string',
+                'password' => 'required|string|min:8',
+                'phone' => 'required|unique:users',
             ]);
             if ($validatedData->fails()) {
                 return response()->json([
@@ -90,8 +104,9 @@ class UsersController extends Controller
         try {
             $validatedData = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
-                'email' => ['required',Rule::unique('users')->ignore($user->id)],
+                // 'email' => ['required',Rule::unique('users')->ignore($user->id)],
                 'username' => ['required',Rule::unique('users')->ignore($user->id)],
+                'phone' => ['required',Rule::unique('users')->ignore($user->id)],
             ]);
             if ($validatedData->fails()) {
                 return response()->json([

@@ -11,7 +11,15 @@ class OrderController extends Controller
     //
     public function getlist(Request $request)
     {
+        $store_id = request()->user()->store_id;
         $type_id = $request->query('type_id');
+        if($store_id && ($type_id == '0' || $type_id == '1')) {
+            $data = Order::where(['type_id'=>$type_id, 'store_id'=>$store_id])->orderBy('id', 'DESC')->get();
+            return response()->json([
+                'status' => true,
+                'data' => $data,
+            ]);
+        }
         if ($type_id == null) {
             //All orders
             $data = Order::orderBy('id', 'DESC')->get();
@@ -26,6 +34,7 @@ class OrderController extends Controller
             'status' => true,
             'data' => $data,
         ]);
+
     }
 
     public function getitem($id)
@@ -151,5 +160,77 @@ class OrderController extends Controller
             'status' => true,
             'data' => $data,
         ]);
+    }
+
+    public function store_by_user(Request $request)
+    {
+        $order = Order::where('user_order_id', request()->user()->id)->orderBy('id', 'DESC')->get();
+        if ($order[0]->status_order_id == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => "Xin hãy đợi đơn hàng trước được duyệt!"
+            ]);
+        }
+        $new = new Order;
+        try {
+            $new->type_id = $request->type_id;
+            $new->user_order_id = $request->user_order_id ? $request->user_order_id : null;
+            $new->phone = $request->phone ? $request->phone : null;
+            $new->address = $request->address ? $request->address : null;
+            $new->money = $request->money ? $request->money : null;
+            $new->status_order_id = $request->status_order_id ? $request->status_order_id : 0;
+            $new->order_detail = $request->orderD ? json_encode($request->orderD) : json_encode([]);
+            $new->user_owner_id = $request->user_owner_id ? $request->user_owner_id : null;
+            $new->store_id = $request->store_id ? $request->store_id : null;
+            $new->name = $request->name ? $request->name : null;
+            $new->payment_id = $request->payment_id ? $request->payment_id : 0;
+            $new->payment_status = $request->payment_status ? $request->payment_status : 0;
+            $new->notes = $request->notes ? $request->notes : null;
+            $result = $new->save();
+            if ($result) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Create new Order successfully!',
+                    'data' => $new->id
+                ]);
+            }
+        } catch (\Exception $err) {
+            return response()->json([
+                'status' => false,
+                'message' => $err->getMessage()
+            ]);
+        }
+    }
+
+    public function update_accept_order(Request $request)
+    {
+        $itemOrder = Order::findOrFail($request->input('id'));
+        try {
+            // update qty
+            if (isset($request->orderD)) {
+                $request['order_detail'] = $request->orderD ? json_encode($request->orderD) : json_encode([]);
+                //Them mon qty
+                if (isset($request->orderD)) {
+                    foreach ($request->orderD as $item) {
+                        $num = $item['qty'];
+                        $item = Qtyfood::where(['id_food' => $item['id'], 'id_store' => $request['store_id']])->orderBy('id', 'DESC')->first();
+                        $item['qty'] = $item['qty'] - $num;
+                        $item->update(['qty' => $item['qty']]);
+                    }
+                }
+            }
+            // dd($request->orderD);
+            unset($request['orderD']);
+            $itemOrder->update($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => 'Update successfully!',
+            ]);
+        } catch (\Exception $err) {
+            return response()->json([
+                'status' => false,
+                'message' => $err->getMessage()
+            ]);
+        }
     }
 }

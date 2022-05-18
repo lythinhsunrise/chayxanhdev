@@ -37,9 +37,7 @@ const OrdersHome = () => {
     {
       title: 'Thanh toán',
       dataIndex: 'payment_status',
-      filters: list_status_order,
       width: 150,
-      onFilter: (value, record) => record.status_order_id == value,
       render: (value, record) => {
         if (record.payment_status === 0) return <Tag color="red">Chưa thanh toán</Tag>
         if (record.payment_status === 1) return <Tag color="green">Đã thanh toán</Tag>
@@ -119,7 +117,7 @@ const OrdersHome = () => {
         <Breadcrumb.Item>Danh sách</Breadcrumb.Item>
       </Breadcrumb>
       <div className="site-layout-background" style={{ padding: 16, minHeight: 480 }}>
-        <Button type='primary' style={{ marginBottom: '16px' }}><Link to="/admin/orders_home/detail">Đơn hàng mới</Link></Button>
+        {/* <Button type='primary' style={{ marginBottom: '16px' }}><Link to="/admin/orders_home/detail">Đơn hàng mới</Link></Button> */}
         <Table
           bordered
           scroll={{ x: 980 }}

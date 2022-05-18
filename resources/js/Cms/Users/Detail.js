@@ -18,7 +18,7 @@ const DetailUser = () => {
   const [item, setItem] = useState({});
   const [loadingForm, setLoadingForm] = useState(false);
   const [form] = Form.useForm();
-  const { getUserByID, storeUser, updateUser, getListStores } = useContext(AppContext);
+  const { getUserByID, storeUser, updateUser, getListStores, user } = useContext(AppContext);
   const [stores, setStores] = useState();
 
   const operations = <>
@@ -118,7 +118,7 @@ const DetailUser = () => {
                     style={{ marginBottom: 15 }}
                     rules={[{ required: item.id ? false : true, message: 'Please Input' }]}
                   >
-                    <Input placeholder={item.id ? "Change Password..." : "Please Input"} />
+                    <Input type="password" placeholder={item.id ? "Change Password..." : "Please Input"} />
                   </Form.Item>
                   <Form.Item
                     label="Email"
@@ -133,7 +133,7 @@ const DetailUser = () => {
                     style={{ marginBottom: 15 }}
                     rules={[{ required: true, message: 'Please Input' }]}
                   >
-                    <Input type="number" placeholder="Please Input" />
+                    <Input placeholder="Please Input" />
                   </Form.Item>
                   <Form.Item
                     label="Địa chỉ"
@@ -154,7 +154,7 @@ const DetailUser = () => {
                       <Select.Option key={1} value={0}>Khách hàng</Select.Option>
                       <Select.Option key={2} value={3}>Nhân viên</Select.Option>
                       <Select.Option key={3} value={2}>Quản lý chi nhánh</Select.Option>
-                      <Select.Option key={4} value={1}>Quản lý tổng</Select.Option>
+                      {user.role_id == 1 ? <Select.Option key={4} value={1}>Quản lý tổng</Select.Option> : null}
                     </Select>
                   </Form.Item>
                   <Form.Item

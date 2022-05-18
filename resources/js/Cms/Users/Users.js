@@ -14,10 +14,10 @@ const Users = () => {
   useEffect(() => {
     getListUsers().then((response) => {
       setUsers(response.data.data)
-      setLoadingTable(false)
-    })
-    getListStores().then((response) => {
-      setStores(response.data.data)
+      getListStores().then((response) => {
+        setStores(response.data.data)
+        setLoadingTable(false)
+      })
       setLoadingTable(false)
     })
   }, [])
@@ -47,12 +47,12 @@ const Users = () => {
       dataIndex: 'username',
       key: 'username',
     },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      ellipsis: true,
-    },
+    // {
+    //   title: 'Email',
+    //   dataIndex: 'email',
+    //   key: 'email',
+    //   ellipsis: true,
+    // },
     {
       title: 'SĐT',
       dataIndex: 'phone',
@@ -63,7 +63,7 @@ const Users = () => {
       title: 'Quyền',
       dataIndex: 'role_id',
       key: 'role_id',
-      width: 120,
+      width: 140,
       filters: role,
       onFilter: (value, record) => record.role_id == value,
       render: (role_id) => {

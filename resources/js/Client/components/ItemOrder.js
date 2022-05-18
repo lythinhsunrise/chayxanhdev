@@ -18,7 +18,6 @@ const ItemOrder = ({order}) => {
           <Steps current={order.status_order_id}>
             <Step title="Chờ xử lý" description="Đơn hàng đã được ghi nhận!" />
             <Step title="Đang chuẩn bị" description="Đơn hàng đang chuẩn bị" />
-            <Step title="Đang giao" description="Đang giao đến bạn" />
             <Step title="Hoàn thành" description="Đơn hoàn thành" />
           </Steps>
         </div>

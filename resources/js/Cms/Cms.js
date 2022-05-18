@@ -40,7 +40,7 @@ const Cms = () => {
           <Menu.Item key="0" icon={<DesktopOutlined />}>
             <Link to="/admin">CMS</Link>
           </Menu.Item>
-          <SubMenu
+          {user.role_id < 3 ? <SubMenu
             key="menus"
             icon={<ProfileOutlined />}
             title="Quản lý món ăn"
@@ -51,7 +51,7 @@ const Cms = () => {
             <Menu.Item key="menus-2">
               <Link to="/admin/foods_qty">Số lượng món ăn</Link>
             </Menu.Item>
-          </SubMenu>
+          </SubMenu> : null}
           {/* <Menu.Item key="1" icon={<ProfileOutlined />}>
             <Link to="/admin/menus">Quản lý món ăn</Link>
           </Menu.Item> */}
@@ -73,12 +73,12 @@ const Cms = () => {
           <Menu.Item key="5" icon={<ProfileOutlined />}>
             <Link to="/admin/booking">Quản lý đặt bàn</Link>
           </Menu.Item>
-          <Menu.Item key="7" icon={<UserOutlined />}>
+          {user.role_id < 3 ? <Menu.Item key="7" icon={<UserOutlined />}>
             <Link to="/admin/users">Quản lý tài khoản</Link>
-          </Menu.Item>
-          <Menu.Item key="8" icon={<HomeOutlined />}>
+          </Menu.Item> : null}
+          {user.role_id === 4 ? <Menu.Item key="8" icon={<HomeOutlined />}>
             <Link to="/admin/stores">Quản lý chi nhánh</Link>
-          </Menu.Item>
+          </Menu.Item> : null}
         </Menu>
       </Sider>
       <Layout>
@@ -99,7 +99,7 @@ const Cms = () => {
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-          ThinhDev ©2022 ChayXanhProject
+          ThinhDev - IUH ©2022 ChayXanhProject
         </Footer>
       </Layout>
     </Layout>

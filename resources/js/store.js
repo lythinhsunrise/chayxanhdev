@@ -193,11 +193,17 @@ const Provider = ({ children }) => {
     updateOrder: (values) => {
       return axios.post(`/api/orders/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    updateOrderAccept: (values) => {
+      return axios.post(`/api/orders/update_accept_order`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
     deleteOrder: (id) => {
       return axios.post(`/api/orders/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
     orderByUser: (id) => {
       return axios.get(`/api/orders/order_by_user/${id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    storeByUser: (values) => {
+      return axios.post(`/api/store_by_user`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
     //Qtyfoods
     getListQtyFoods: (store_id) => {

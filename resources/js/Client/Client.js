@@ -64,7 +64,9 @@ const Client = () => {
             <Menu.Item key="booking">
               <Link to='/booking'>Đặt bàn</Link>
             </Menu.Item>
-            <Menu.Item key="about">Giới thiệu</Menu.Item>
+            <Menu.Item key="about">
+              <Link to='/about-us'>Giới thiệu</Link>
+            </Menu.Item>
           </Menu>
         </Header>
 
@@ -72,7 +74,7 @@ const Client = () => {
           <Outlet />
         </Content>
 
-        <Footer style={{ textAlign: 'center' }}>ThinhDev ©2022 ChayXanhProject</Footer>
+        <Footer style={{ textAlign: 'center' }}>ThinhDev - IUH ©2022 ChayXanhProject</Footer>
         <Drawer
           title="Giỏ hàng của bạn"
           placement="right"

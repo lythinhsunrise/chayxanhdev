@@ -17,7 +17,7 @@ const radioStyle = {
 const MyCart = () => {
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
-  const { user, cart, money, cart_length, storeOrder, resetCart, getListStores } = useContext(AppContext);
+  const { user, cart, money, cart_length, storeByUser, resetCart, getListStores } = useContext(AppContext);
   const [form] = Form.useForm();
   const [payment, setPayment] = useState(1);
   const [visible, setVisible] = useState(false);
@@ -44,13 +44,17 @@ const MyCart = () => {
         ...values, orderD: cart, payment_id: payment, payment_status: 0,
         type_id: 1, money, status_order_id: 0, user_order_id: values.id
       }
-      console.log(values)
-      storeOrder(values).then((res) => {
+      if(values.orderD.length == 0) {
+        return;
+      }
+      // console.log(values)
+      storeByUser(values).then((res) => {
         if (res.data.status == true) {
           setOrderID(res.data.data);
           setVisible(true);
           resetCart();
         }
+        openNotification(res.data);
       })
     })
     if (!user.id) {

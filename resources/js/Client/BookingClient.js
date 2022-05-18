@@ -1,14 +1,20 @@
-import { Button, Card, Col, Form, Input, Row, Select, Spin } from 'antd';
+import { Button, Card, Col, DatePicker, Form, Input, InputNumber, Row, Select, Spin, TimePicker  } from 'antd';
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../store';
 import { openNotification } from '../Helpers/Notification';
 import { useNavigate } from 'react-router-dom';
-
+const layout = {
+  labelCol: { span: 5 },
+  wrapperCol: { span: 19 },
+};
 const BookingClient = () => {
   const [loading, setLoading] = useState(false);
   const { user, getListStores, storeBooking } = useContext(AppContext);
   const [form] = Form.useForm();
   const [stores, setStores] = useState();
+  const [time, setTime] = useState();
+  const [date, setDate] = useState();
+  
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +28,8 @@ const BookingClient = () => {
 
   const onFinish = () => {
     form.validateFields().then((values) =>{
+      values.date = date;
+      values.time = time;
       // console.log(values)
       storeBooking(values).then((res) => {
         if (res.data.status == true) {
@@ -31,6 +39,16 @@ const BookingClient = () => {
       })
     })
   }
+
+  function onChange(time, timeString) {
+    setTime(timeString)
+  }
+
+  function onChangeDate(time, timeString) {
+    setDate(timeString)
+  }
+
+  const format = 'HH:mm';
 
   return (
     <Row>
@@ -43,20 +61,21 @@ const BookingClient = () => {
               layout='horizontal'
               form={form}
               onFinish={onFinish}
+              {...layout}
             >
               <Form.Item
                 label="Tên"
                 name="name"
                 rules={[{ required: true, message: 'Please input your name!' }]}
               >
-                <Input bordered={false} placeholder="..." />
+                <Input placeholder="..." />
               </Form.Item>
               <Form.Item
                 label="Số điện thoại"
                 name="phone"
                 rules={[{ required: true, message: 'Please input your phone!' }]}
               >
-                <Input bordered={false} placeholder="..." />
+                <Input placeholder="..." />
               </Form.Item>
               <Form.Item
                 label="Chọn quán"
@@ -65,7 +84,6 @@ const BookingClient = () => {
                 rules={[{ required: true, message: 'Chọn quán' }]}
               >
                 <Select
-                  bordered={false}
                   optionFilterProp="children"
                   placeholder="Chọn quán"
                 >
@@ -77,21 +95,22 @@ const BookingClient = () => {
                 name="date"
                 rules={[{ required: true, message: 'Please input your date!' }]}
               >
-                <Input bordered={false} type="date" />
+                <DatePicker onChange={onChangeDate}/>
               </Form.Item>
               <Form.Item
                 label="Thời gian"
                 name="time"
                 rules={[{ required: true, message: 'Please input your time!' }]}
               >
-                <Input bordered={false} type="time" />
+                {/* <Input bordered={false} type="time" /> */}
+                <TimePicker onChange={onChange} format={format} />
               </Form.Item>
               <Form.Item
                 label="Số lượng khách dự kiến"
                 name="guest"
                 rules={[{ required: true, message: 'Please input your guest!' }]}
               >
-                <Input bordered={false} type="number" />
+                <InputNumber min={1} max={50}/>
               </Form.Item>
             </Form>
           </Spin>

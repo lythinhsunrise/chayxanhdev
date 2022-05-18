@@ -111,9 +111,9 @@ const DetailStore = () => {
                     style={{ marginBottom: 15 }}
                     rules={[{ required: true, message: 'Please Input' }]}
                   >
-                    <Input type="number" placeholder="Please Input" />
+                    <Input placeholder="Please Input" />
                   </Form.Item>
-                  <Form.Item
+                  {/* <Form.Item
                     label="SL bàn"
                     name="seats"
                     style={{ marginBottom: 15 }}
@@ -128,7 +128,7 @@ const DetailStore = () => {
                     rules={[{ required: true, message: 'Please Select' }]}
                   >
                     <Input type="number" placeholder="Please Input" />
-                  </Form.Item>
+                  </Form.Item> */}
                 </Col>
                 <Col xs={24} xl={12}>
                 </Col>

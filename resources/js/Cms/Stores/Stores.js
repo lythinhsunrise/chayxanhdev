@@ -39,16 +39,16 @@ const Stores = () => {
       dataIndex: 'phone',
       key: 'phone',
     },
-    {
-      title: 'SL bàn',
-      dataIndex: 'seats',
-      key: 'seats',
-    },
-    {
-      title: 'SL phòng',
-      dataIndex: 'private_room',
-      key: 'private_room',
-    },
+    // {
+    //   title: 'SL bàn',
+    //   dataIndex: 'seats',
+    //   key: 'seats',
+    // },
+    // {
+    //   title: 'SL phòng',
+    //   dataIndex: 'private_room',
+    //   key: 'private_room',
+    // },
     {
       title: 'Action',
       key: 'action',

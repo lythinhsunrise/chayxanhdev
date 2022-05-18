@@ -7,12 +7,18 @@ import { AppContext } from '../../store';
 
 const Booking = () => {
   let navigate = useNavigate();
-  const { getListBookings, deleteBooking, user, updateBooking } = useContext(AppContext);
+  const { getListBookings, deleteBooking, user, updateBooking, getListStores } = useContext(AppContext);
   const [data, setData] = useState();
   const [loadingTable, setLoadingTable] = useState(true);
+  const [stores, setStores] = useState();
+  
   useEffect(() => {
     getListBookings(user.store_id).then((response) => {
       setData(response.data.data)
+      getListStores().then((response) => {
+        setStores(response.data.data)
+        setLoadingTable(false)
+      })
       setLoadingTable(false)
     })
   }, [])
@@ -60,6 +66,17 @@ const Booking = () => {
       key: 'guest',
     },
     {
+      title: 'Chi nhánh',
+      dataIndex: 'store_id',
+      key: 'store_id',
+      render: (store_id) => {
+        let store_text = stores ? stores.find(item => item.id == store_id) : null;
+        return (
+          <>{store_text ? store_text.name : ""}</>
+        );
+      }
+    },
+    {
       title: 'Action',
       key: 'action',
       width: 100,
@@ -69,9 +86,9 @@ const Booking = () => {
           {record.status === 0 && <Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => update(record)}>
             <Button type="link" size="small" ><CheckSquareOutlined /></Button>
           </Popconfirm>}
-          <Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => remove(record)}>
+          {user.role_id == 1 &&<Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => remove(record)}>
             <Button type="link" size="small" danger><DeleteOutlined /></Button>
-          </Popconfirm>
+          </Popconfirm>}
         </Space>
       ),
     },

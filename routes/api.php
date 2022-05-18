@@ -48,11 +48,13 @@ Route::post('/menus', [MenuController::class, 'store'])->middleware('auth:sanctu
 Route::post('/menus/update', [MenuController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/menus/delete/{id}', [MenuController::class, 'delete'])->middleware('auth:sanctum');
 //Orders
-Route::get('/orders/getlist', [OrderController::class, 'getlist']);
+Route::get('/orders/getlist', [OrderController::class, 'getlist'])->middleware('auth:sanctum');
 Route::get('/orders/order_by_user/{id}', [OrderController::class, 'order_by_user'])->middleware('auth:sanctum');
+Route::post('/store_by_user', [OrderController::class, 'store_by_user'])->middleware('auth:sanctum');
 Route::get('/orders/{id}', [OrderController::class, 'getitem'])->middleware('auth:sanctum');
 Route::post('/orders', [OrderController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/orders/update', [OrderController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/orders/update_accept_order', [OrderController::class, 'update_accept_order'])->middleware('auth:sanctum');
 Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->middleware('auth:sanctum');
 //QtyFoods
 Route::get('/qtyfoods/getlist', [QtyfoodController::class, 'getlist'])->middleware('auth:sanctum');
@@ -60,6 +62,6 @@ Route::post('/qtyfoods', [QtyfoodController::class, 'store'])->middleware('auth:
 Route::post('/qtyfoods/update', [QtyfoodController::class, 'update'])->middleware('auth:sanctum');
 //Booking
 Route::get('/booking/getlist', [BookingController::class, 'getlist'])->middleware('auth:sanctum');
-Route::post('/booking', [BookingController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/booking', [BookingController::class, 'store']);
 Route::post('/booking/update', [BookingController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/booking/delete/{id}', [BookingController::class, 'delete'])->middleware('auth:sanctum');
