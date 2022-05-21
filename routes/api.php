@@ -65,3 +65,7 @@ Route::get('/booking/getlist', [BookingController::class, 'getlist'])->middlewar
 Route::post('/booking', [BookingController::class, 'store']);
 Route::post('/booking/update', [BookingController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/booking/delete/{id}', [BookingController::class, 'delete'])->middleware('auth:sanctum');
+
+//PaymentMomo
+Route::post('/momo-payment', [OrderController::class, 'paymentWithMomo']);
+Route::post('/momo-success', [OrderController::class, 'paymentMomoSuccess']);

@@ -16,5 +16,6 @@ class Order extends Model
         'status_order_id' => 'integer',
         'type_id' => 'integer',
         'user_owner_id' => 'integer',
+        'momo_id' => 'integer',
     ];
 }

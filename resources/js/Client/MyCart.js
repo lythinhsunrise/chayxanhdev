@@ -17,7 +17,7 @@ const radioStyle = {
 const MyCart = () => {
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
-  const { user, cart, money, cart_length, storeByUser, resetCart, getListStores } = useContext(AppContext);
+  const { user, cart, money, cart_length, storeByUser, resetCart, getListStores, getPaymentMomo } = useContext(AppContext);
   const [form] = Form.useForm();
   const [payment, setPayment] = useState(1);
   const [visible, setVisible] = useState(false);
@@ -39,16 +39,28 @@ const MyCart = () => {
   };
 
   const onFinish = () => {
+    if (!user.id) {
+      openNotification({ status: false, message: 'Please login to order your food!' });
+      navigate("/login");
+      return;
+    }
     form.validateFields().then((values) => {
       values = {
         ...values, orderD: cart, payment_id: payment, payment_status: 0,
         type_id: 1, money, status_order_id: 0, user_order_id: values.id
       }
-      if(values.orderD.length == 0) {
+      if (values.orderD.length == 0) {
         return;
       }
       // console.log(values)
       storeByUser(values).then((res) => {
+        if (payment == 3) {
+          let info = {amount: money, orderId: res.data.tempOrderId};
+          getPaymentMomo(info).then((res) => {
+            window.open(res.data.url,"_self");
+          })
+          return;
+        }
         if (res.data.status == true) {
           setOrderID(res.data.data);
           setVisible(true);
@@ -57,9 +69,6 @@ const MyCart = () => {
         openNotification(res.data);
       })
     })
-    if (!user.id) {
-      openNotification({ status: false, message: 'Please login to order your food!' });
-    }
   };
   const onChange = e => {
     setPayment(e.target.value)
@@ -143,6 +152,9 @@ const MyCart = () => {
                       <p style={{ marginBottom: '0' }}>- Ngan hang: Techcombank</p>
                       <p style={{ marginBottom: '0' }}>- Chi nhanh: Ho chi Minh</p>
                     </> : null}
+                  </Radio>
+                  <Radio style={radioStyle} value={3}>
+                    Thanh toán bằng ví MoMo
                   </Radio>
                 </Radio.Group>
               </Col>

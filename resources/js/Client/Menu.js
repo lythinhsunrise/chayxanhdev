@@ -26,8 +26,15 @@ const MenuHome = () => {
               })}
             </Card>
             <Card title="Món chính" bordered={false}>
+              <Row>
+                {itemMenu && itemMenu.map((item) => {
+                  if (item.category == 2) return <MenuHomeItem key={item.id} item={item} />
+                })}
+              </Row>
+            </Card>
+            <Card title="Món đặc biệt" bordered={false}>
               {itemMenu && itemMenu.map((item) => {
-                if (item.category == 2) return <MenuHomeItem key={item.id} item={item} />
+                if (item.category == 3) return <MenuHomeItem key={item.id} item={item} />
               })}
             </Card>
             <Card title="Món đặc biệt" bordered={false}>

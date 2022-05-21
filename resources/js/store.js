@@ -234,6 +234,13 @@ const Provider = ({ children }) => {
     deleteBooking: (id) => {
       return axios.post(`/api/booking/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    //Payment with momo
+    getPaymentMomo: (values) => {
+      return axios.post(`/api/momo-payment`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    momoSuccess: (values) => {
+      return axios.post(`/api/momo-success`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    }
   };
 
   return (

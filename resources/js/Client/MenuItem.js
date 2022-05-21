@@ -15,7 +15,7 @@ const MenuHomeItem = ({item}) => {
     navigate("/my-cart")
   }
   return (
-    <Col xs={{ span: 24, offset: 0 }}>
+    <Col md={{ span: 24, offset: 0 }} lg={{ span: 12, offset: 0 }}>
       <div className='menuItem'>
         <div className='leftItem'>
           <img className='menuItemPic' src={APP_URL + '/images' + item.pic}/>
