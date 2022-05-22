@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             $table->smallInteger('payment_id')->nullable();
             $table->boolean('payment_status')->nullable();
             $table->text('notes')->nullable();
+            $table->integer('momo_id')->nullable();
             $table->timestamps();
         });
     }

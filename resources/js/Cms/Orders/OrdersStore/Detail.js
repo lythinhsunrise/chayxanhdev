@@ -159,8 +159,8 @@ const DetailOrderStore = () => {
   }, [inputMoney])
 
   const onPayment = () => {
-    let values = { id: params.id, payment_status: 1 }
-    if(changeMoney >= 0){
+    let values = { id: params.id, payment_status: 1, status_order_id: 4 }
+    if (changeMoney >= 0) {
       updateOrder(values).then(function (res) {
         setLoadingForm(false)
         openNotification(res.data);
@@ -197,13 +197,16 @@ const DetailOrderStore = () => {
                   <h3>Các món đã chọn</h3>
                   {orderD.map((item, index) => <ItemCart key={index} item={item} noButton={true} />)}
                   {orderD.length ? <>
-                    <h4>Tổng cộng: {money}</h4>
+                    {/* <h4>Tổng cộng: {money}</h4> */}
                   </> : <Empty description="Chưa có món nào, hãy thêm món ngay nào ..." />}
                 </Col>
                 <Col xs={24} xl={12}>
+                  {orderD.length ? <>
+                    <h2>Tổng cộng: {`${money} VND`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h2>
+                  </> : null}
                   <h4>Ghi chú</h4>
                   <Input.TextArea rows={5} placeholder="..." value={notes} onChange={onChangeNotes} />
-                  <h4>Trạng thái: {item.payment_status === 1 ? "Đã thanh toán" : "Chưa thanh toán"}</h4>
+                  {(item.payment_status === 1 && params.id) ? <h3 style={{ color: '#307839', border: '2px solid #307839', width: '150px', paddingLeft: '8px', marginTop: '8px' }}>Đã thanh toán</h3> : null}
                 </Col>
               </Row>
               <br />
@@ -242,11 +245,11 @@ const DetailOrderStore = () => {
             onCancel={onClose}
             onOk={onPayment}
           >
-            <h4>Tổng tiền: {`${money}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} VND</h4>
+            <h4>Tổng tiền: {`${money} VND`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</h4>
             <h4>Tiền khách đưa: </h4>
             <InputNumber style={{ width: '100%' }} min={0} placeholder='Số tiền khách đưa' onChange={(e) => { setInputMoney(e) }} value={inputMoney} />
             <h4>Tiền thừa: </h4>
-            <Input placeholder='Số tiền thừa' value={`${changeMoney}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} />
+            <Input placeholder='Số tiền thừa' value={`${changeMoney} VND`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} />
           </Modal>
         </Card>
       </div>

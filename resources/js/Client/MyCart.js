@@ -54,7 +54,7 @@ const MyCart = () => {
       }
       // console.log(values)
       storeByUser(values).then((res) => {
-        if (payment == 3) {
+        if (payment == 3 && res.data.status === true) {
           let info = {amount: money, orderId: res.data.tempOrderId};
           getPaymentMomo(info).then((res) => {
             window.open(res.data.url,"_self");
@@ -79,12 +79,13 @@ const MyCart = () => {
         <br />
         <Card title="Đơn hàng mới" bordered={false}>
           <Spin tip="Loading..." spinning={loading}>
-            <Row>
+            <Row gutter={[4, 0]}>
               <Col xs={{ span: 12 }}>
                 <h3>Thông tin giao hàng</h3>
                 <Form
                   labelAlign="left"
-                  layout='horizontal'
+                  // layout='horizontal'
+                  {...layout}
                   form={form}
                   onFinish={onFinish}
                 >
@@ -94,21 +95,21 @@ const MyCart = () => {
                     name="name"
                     rules={[{ required: true, message: 'Please input your name!' }]}
                   >
-                    <Input bordered={false} placeholder="..." />
+                    <Input placeholder="..." />
                   </Form.Item>
                   <Form.Item
                     label="Phone"
                     name="phone"
                     rules={[{ required: true, message: 'Please input your phone!' }]}
                   >
-                    <Input bordered={false} placeholder="..." />
+                    <Input placeholder="..." />
                   </Form.Item>
                   <Form.Item
                     label="Địa chỉ"
                     name="address"
                     rules={[{ required: true, message: 'Please input your address!' }]}
                   >
-                    <Input.TextArea bordered={false} placeholder="..." />
+                    <Input.TextArea placeholder="..." />
                   </Form.Item>
                   <Form.Item
                     label="Chi nhánh"
@@ -127,7 +128,7 @@ const MyCart = () => {
                     label="Ghi chú"
                     name="notes"
                   >
-                    <Input.TextArea bordered={false} placeholder="..." />
+                    <Input.TextArea placeholder="..." />
                   </Form.Item>
                 </Form>
               </Col>
@@ -144,7 +145,7 @@ const MyCart = () => {
                   <Radio style={radioStyle} value={1}>
                     Thanh toán khi giao hàng (COD)
                   </Radio>
-                  <Radio style={radioStyle} value={2}>
+                  {/* <Radio style={radioStyle} value={2}>
                     Chuyển khoản cho cửa hàng
                     {payment == 2 ? <>
                       <p style={{ marginBottom: '0' }}>- STK: 19036286551012</p>
@@ -152,7 +153,7 @@ const MyCart = () => {
                       <p style={{ marginBottom: '0' }}>- Ngan hang: Techcombank</p>
                       <p style={{ marginBottom: '0' }}>- Chi nhanh: Ho chi Minh</p>
                     </> : null}
-                  </Radio>
+                  </Radio> */}
                   <Radio style={radioStyle} value={3}>
                     Thanh toán bằng ví MoMo
                   </Radio>

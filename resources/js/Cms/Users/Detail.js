@@ -157,7 +157,7 @@ const DetailUser = () => {
                       {user.role_id == 1 ? <Select.Option key={4} value={1}>Quản lý tổng</Select.Option> : null}
                     </Select>
                   </Form.Item>
-                  <Form.Item
+                  {user.role_id == 1 ? <Form.Item
                     label="Chi nhánh"
                     name="store_id"
                     style={{ marginBottom: 15 }}
@@ -165,9 +165,11 @@ const DetailUser = () => {
                     <Select
                       optionFilterProp="children"
                     >
+                      <Select.Option key="0" value={null}>Tất cả chi nhánh</Select.Option>
                       {stores && stores.map((item) => <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>)}
                     </Select>
-                  </Form.Item>
+                  </Form.Item> : null}
+
                 </Col>
                 <Col xs={24} xl={12}>
                 </Col>

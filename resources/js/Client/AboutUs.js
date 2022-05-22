@@ -24,9 +24,9 @@ const AboutUs = () => {
         <Card bordered={false}>
           <Spin tip="Loading..." spinning={loading}>
             <h1>Giới thiệu</h1>
-            <p>Kính chào Quý Khách Hàng!</p>
+            <p style={{fontSize: '16px'}}>Kính chào Quý Khách Hàng!</p>
 
-            Việc ăn uống luôn là một chủ đề quan trọng trong cuộc sống của mỗi chúng ta. Có câu: “Bạn là những gì bạn ăn”. Thật vậy! Thực phẩm mà chúng ta ăn vào ảnh hưởng trực tiếp đến sức khỏe thể chất lẫn tinh thần. Sự thật là một bữa ăn thực vật sẽ khiến thân và tâm ta nhẹ nhàng hơn. Đơn giản  vì thực vật rất dễ tiêu hóa. Trong thực vật chứa nhiều chất xơ, chất béo không no…giúp giảm cân, giảm cholesterol, giảm bệnh tim mạch, giảm tỉ lệ đái tháo đường...
+            <p style={{fontSize: '16px'}}>Việc ăn uống luôn là một chủ đề quan trọng trong cuộc sống của mỗi chúng ta. Có câu: “Bạn là những gì bạn ăn”. Thật vậy! Thực phẩm mà chúng ta ăn vào ảnh hưởng trực tiếp đến sức khỏe thể chất lẫn tinh thần. Sự thật là một bữa ăn thực vật sẽ khiến thân và tâm ta nhẹ nhàng hơn. Đơn giản  vì thực vật rất dễ tiêu hóa. Trong thực vật chứa nhiều chất xơ, chất béo không no…giúp giảm cân, giảm cholesterol, giảm bệnh tim mạch, giảm tỉ lệ đái tháo đường...
 
             Những bữa ăn thực vật ngày càng được khuyến khích và đang trở thành xu hướng trên toàn thế giới. Việc ăn chay với nhiều người đơn thuần là chuyện thuận theo tự nhiên, thuận theo nhu cầu của cơ thể. Ăn chay không chỉ mang đến nhiều lợi ích tuyệt vời cho sức khoẻ, mà  thói quen ăn chay còn góp phần bảo vệ môi trường, giúp con người nuôi dưỡng tâm từ bi, tấm lòng yêu thương động vật.
 
@@ -44,9 +44,9 @@ const AboutUs = () => {
 
             Để CHAY XANH được phục vụ quý khách tốt nhất, vui lòng lưu ý đến nhân viên nếu:
 
-            -Bạn dị ứng bất kì một nguyên liệu nào hoặc bạn có những lưu ý đặc biệt đối với món ăn của mình.
+            -Bạn dị ứng bất kì một nguyên liệu nào hoặc bạn có những lưu ý đặc biệt đối với món ăn của mình.</p>
 
-            <p>Cảm ơn và kính chúc quý khách có những trải nghiệm tốt nhất!</p>
+            <p style={{fontSize: '16px'}}>Cảm ơn và kính chúc quý khách có những trải nghiệm tốt nhất!</p>
 
 
 

@@ -49,7 +49,7 @@
     margin-right: 8px;
 }
 @media only screen and (max-width: 1072px) and (min-width: 992px) {
-    .leftItem {
+    /* .leftItem {
         max-width: 100%;
         width: 100%
     }
@@ -60,7 +60,7 @@
     }
     .menuItem {
         flex-wrap: wrap;
-    }
+    } */
 }
 @media only screen and (max-width: 992px) and (min-width: 990px) {
     /* .leftItem {

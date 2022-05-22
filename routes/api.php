@@ -56,6 +56,7 @@ Route::post('/orders', [OrderController::class, 'store'])->middleware('auth:sanc
 Route::post('/orders/update', [OrderController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/orders/update_accept_order', [OrderController::class, 'update_accept_order'])->middleware('auth:sanctum');
 Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->middleware('auth:sanctum');
+Route::post('/orders/update_by_user', [OrderController::class, 'update_by_user'])->middleware('auth:sanctum');
 //QtyFoods
 Route::get('/qtyfoods/getlist', [QtyfoodController::class, 'getlist'])->middleware('auth:sanctum');
 Route::post('/qtyfoods', [QtyfoodController::class, 'store'])->middleware('auth:sanctum');

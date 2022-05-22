@@ -32,6 +32,8 @@ import OrdersHome from './Cms/Orders/OrdersHome/OrdersHome';
 import DetailOrderHome from './Cms/Orders/OrdersHome/Detail';
 import BookingClient from './Client/BookingClient';
 import AboutUs from './Client/AboutUs';
+import FoodSupply from './Cms/FoodSupply/FoodSupply';
+import MyOrderDetail from './Client/MyOrderDetail';
 
 
 function App() {
@@ -49,6 +51,7 @@ function App() {
           <Route path='/my-cart' element={<MyCart />} />
           <Route path='/me' element={<Me />} />
           <Route path='/my-order' element={<MyOrder />} />
+          <Route path='/my-order/:id' element={<MyOrderDetail />} />
           <Route path='/booking' element={<BookingClient />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
@@ -78,6 +81,7 @@ function App() {
           <Route path='booking' element={<Booking />}/>
           <Route path='booking/detail' element={<Booking />}/>
           <Route path='booking/detail/:id' element={<Booking/>}/>
+          <Route path='foods_supply' element={<FoodSupply/>}/>
         </Route>
       </Routes>
     </div>

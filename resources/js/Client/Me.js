@@ -37,58 +37,60 @@ const Me = () => {
         <br />
         <Card title="Thông tin tài khoản" bordered={false}>
           <Spin tip="Loading..." spinning={loading}>
-            <Form
-              {...layout}
-              // labelAlign="left"
-              layout='horizontal'
-              form={form}
-              onFinish={onFinish}
-            >
-              <Form.Item name="id" hidden><Input /></Form.Item>
-              <Form.Item
-                label="Username"
-                name="username"
+            <Col xs={{ span: 24, offset: 0 }} lg={{ span: 16, offset: 4 }}>
+              <Form
+                {...layout}
+                labelAlign="left"
+                layout='horizontal'
+                form={form}
+                onFinish={onFinish}
               >
-                <Input bordered={false} disabled/>
-              </Form.Item>
-              <Form.Item
-                label="Tên"
-                name="name"
-                rules={[{ required: true, message: 'Please input your name!' }]}
-              >
-                <Input bordered={false} placeholder="..."/>
-              </Form.Item>
-              <Form.Item
-                label="Phone"
-                name="phone"
-                rules={[{ required: true, message: 'Please input your phone!' }]}
-              >
-                <Input bordered={false} placeholder="..."/>
-              </Form.Item>
-              <Form.Item
-                label="Địa chỉ"
-                name="address"
-              >
-                <Input.TextArea bordered={false} placeholder="..."/>
-              </Form.Item>
-              <Form.Item
-                label="Email"
-                name="email"
-              >
-                <Input bordered={false} type="email" placeholder="..."/>
-              </Form.Item>
-              <Form.Item
-                label="Đổi mật khẩu"
-                name="password"
-              >
-                <Input.Password bordered={false} placeholder="..."/>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Lưu
-                </Button>
-              </Form.Item>
-            </Form>
+                <Form.Item name="id" hidden><Input /></Form.Item>
+                <Form.Item
+                  label="Username"
+                  name="username"
+                >
+                  <Input disabled />
+                </Form.Item>
+                <Form.Item
+                  label="Tên"
+                  name="name"
+                  rules={[{ required: true, message: 'Please input your name!' }]}
+                >
+                  <Input placeholder="..." />
+                </Form.Item>
+                <Form.Item
+                  label="Phone"
+                  name="phone"
+                  rules={[{ required: true, message: 'Please input your phone!' }]}
+                >
+                  <Input placeholder="..." />
+                </Form.Item>
+                <Form.Item
+                  label="Địa chỉ"
+                  name="address"
+                >
+                  <Input.TextArea placeholder="..." />
+                </Form.Item>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                >
+                  <Input type="email" placeholder="..." />
+                </Form.Item>
+                <Form.Item
+                  label="Đổi mật khẩu"
+                  name="password"
+                >
+                  <Input.Password placeholder="..." />
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    Lưu
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Col>
           </Spin>
           <i>Cập nhật thông tin đầy đủ hệ thống sẽ giúp bạn đặt đơn hàng nhanh hơn!</i>
         </Card>

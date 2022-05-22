@@ -64,21 +64,21 @@ const Menu = () => {
       key: 'category',
       dataIndex: 'category',
       width: 120,
-      filters: [
-        {
-          text: 'Món Khai Vị',
-          value: 'Món Khai Vị',
-        },
-        {
-          text: 'Món Chính',
-          value: 'Món Chính',
-        },
-        {
-          text: 'Món Đặc Biệt',
-          value: 'Món Đặc Biệt',
-        },
-      ],
-      onFilter: (value, record) => record.category.indexOf(value) === 0,
+      // filters: [
+      //   {
+      //     text: 'Món Khai Vị',
+      //     value: 'Món Khai Vị',
+      //   },
+      //   {
+      //     text: 'Món Chính',
+      //     value: 'Món Chính',
+      //   },
+      //   {
+      //     text: 'Món Đặc Biệt',
+      //     value: 'Món Đặc Biệt',
+      //   },
+      // ],
+      // onFilter: (value, record) => record.category.indexOf(value) === 0,
       // render: category => {
       //   let color = 'gray';
       //   category === 'Món Chính' ? color = 'green' : color = 'geekblue'
@@ -93,6 +93,7 @@ const Menu = () => {
         if (record.category === 1) return <Tag color="purple">Món Khai Vị</Tag>
         if (record.category === 2) return <Tag color="green">Món Chính</Tag>
         if (record.category === 3) return <Tag color="yellow">Món Đặc Biệt</Tag>
+        if (record.category === 4) return <Tag color="pink">Nước giải khát</Tag>
       }
     },
     {

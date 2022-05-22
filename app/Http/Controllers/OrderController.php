@@ -161,17 +161,37 @@ class OrderController extends Controller
         ]);
     }
 
+    public function update_by_user(Request $request){
+        $itemOrder = Order::findOrFail($request->input('id'));
+        if (isset($request->orderD)) {
+            $request['order_detail'] = $request->orderD ? json_encode($request->orderD) : json_encode([]);
+        }
+        unset($request['orderD']);
+        $itemOrder->update($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'Update successfully!',
+        ]);
+    }
+
     public function store_by_user(Request $request)
     {
         $order = Order::where('user_order_id', request()->user()->id)->orderBy('id', 'DESC')->get();
-        // if (isset($order[0])) {
-        //     if ($order[0]->status_order_id == 0) {
-        //         return response()->json([
-        //             'status' => false,
-        //             'message' => "Xin hãy đợi đơn hàng trước được duyệt!"
-        //         ]);
-        //     }
-        // }
+        if (isset($order[0])) {
+            // if ($order[0]->payment_id === 3 && $order[0]->payment_status === 0) {
+            //     // return response()->json([
+            //     //     'status' => false,
+            //     //     'message' => "Đơn hàng trước đó đã được tạo và thanh toán không thành công. Vui lòng xóa để tạo đơn mới!"
+            //     // ]);
+            //     $order[0]->delete();
+            // }
+            if ($order[0]->status_order_id == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => "Xin hãy đợi đơn hàng trước được duyệt!"
+                ]);
+            }
+        }
         $new = new Order;
         $momo_id = time() . "";
         try {
@@ -219,6 +239,13 @@ class OrderController extends Controller
                         $num = $item['qty'];
                         $item = Qtyfood::where(['id_food' => $item['id'], 'id_store' => $request['store_id']])->orderBy('id', 'DESC')->first();
                         $item['qty'] = $item['qty'] - $num;
+                        if($item['qty'] < 0) {
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'Món ăn đã hết! Xin kiểm tra lại!',
+                                'asd'=>date('H:i:s'),
+                            ]);
+                        }
                         $item->update(['qty' => $item['qty']]);
                     }
                 }
@@ -266,19 +293,19 @@ class OrderController extends Controller
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
 
-        $partnerCode = 'MOMOBKUN20180529';
-        $accessKey = 'klm05TvNBzhg7h7j';
-        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-        $orderInfo = "Thanh toán qua MoMo";
-        $amount = "10000";
-        $orderId = time() . "";
-        $extraData = "";
+        // $partnerCode = 'MOMOBKUN20180529';
+        // $accessKey = 'klm05TvNBzhg7h7j';
+        // $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+        // $orderInfo = "Thanh toán qua MoMo";
+        // $amount = "10000";
+        // $orderId = time() . "";
+        // $extraData = "";
 
         // if (!empty($_POST)) {
         $partnerCode = 'MOMOBKUN20180529';
         $accessKey = 'klm05TvNBzhg7h7j';
         $serectkey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-        // $orderId = $request->orderId; // Mã đơn hàng
+        $orderId = $request->orderId; // Mã đơn hàng
         $orderInfo = 'Thanh toán qua MoMo';
         $amount = $request->amount;
         $ipnUrl = 'http://dev-chayxanh.com/';
@@ -329,7 +356,6 @@ class OrderController extends Controller
     public function paymentMomoSuccess(Request $request){
         $order = Order::where('momo_id', $request->orderId)->first();
         $order->payment_status = 1;
-        $order->status_order_id = 1;
         $order->update();
         return response()->json([
             'status' => true,

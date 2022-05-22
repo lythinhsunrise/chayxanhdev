@@ -36,7 +36,7 @@ const Cms = () => {
         collapsedWidth="0"
       >
         <div className="logo-admin" />
-        <Menu mode="inline" defaultSelectedKeys={['0']}>
+        <Menu mode="inline" defaultSelectedKeys={['0']} defaultOpenKeys={['menus', 'sub1']}>
           <Menu.Item key="0" icon={<DesktopOutlined />}>
             <Link to="/admin">CMS</Link>
           </Menu.Item>
@@ -44,6 +44,7 @@ const Cms = () => {
             key="menus"
             icon={<ProfileOutlined />}
             title="Quản lý món ăn"
+            
           >
             <Menu.Item key="menus-1">
               <Link to="/admin/menus">Thực đơn</Link>
@@ -51,13 +52,10 @@ const Cms = () => {
             <Menu.Item key="menus-2">
               <Link to="/admin/foods_qty">Số lượng món ăn</Link>
             </Menu.Item>
+            <Menu.Item key="menus-3">
+              <Link to="/admin/foods_supply">Yêu cầu chuyển món</Link>
+            </Menu.Item>
           </SubMenu> : null}
-          {/* <Menu.Item key="1" icon={<ProfileOutlined />}>
-            <Link to="/admin/menus">Quản lý món ăn</Link>
-          </Menu.Item> */}
-          {/* <Menu.Item key="6" icon={<ProfileOutlined />}>
-            <Link to="/admin/orders">Quản lý đơn hàng</Link>
-          </Menu.Item> */}
           <SubMenu
             key="sub1"
             icon={<ProfileOutlined />}
@@ -76,7 +74,7 @@ const Cms = () => {
           {user.role_id < 3 ? <Menu.Item key="7" icon={<UserOutlined />}>
             <Link to="/admin/users">Quản lý tài khoản</Link>
           </Menu.Item> : null}
-          {user.role_id === 4 ? <Menu.Item key="8" icon={<HomeOutlined />}>
+          {user.role_id === 1 ? <Menu.Item key="8" icon={<HomeOutlined />}>
             <Link to="/admin/stores">Quản lý chi nhánh</Link>
           </Menu.Item> : null}
         </Menu>

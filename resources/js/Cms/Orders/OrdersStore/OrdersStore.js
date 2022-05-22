@@ -9,7 +9,7 @@ const OrdersStore = () => {
   let navigate = useNavigate();
   const { getListOrders, deleteOrder, getListUsers } = useContext(AppContext);
   const [data, setData] = useState();
-  const [loadingTable, setLoadingTable] = useState(false);
+  const [loadingTable, setLoadingTable] = useState(true);
   const [users, setUsers] = useState();
   useEffect(() => {
     getListUsers().then((response) => {
@@ -43,7 +43,7 @@ const OrdersStore = () => {
       dataIndex: 'payment_status',
       filters: list_status_order,
       width: 150,
-      onFilter: (value, record) => record.status_order_id == value,
+      onFilter: (value, record) => record.payment_status == value,
       render: (value, record) => {
         if (record.payment_status === 0) return <Tag color="red">Chưa thanh toán</Tag>
         if (record.payment_status === 1) return <Tag color="green">Đã thanh toán</Tag>
@@ -82,8 +82,8 @@ const OrdersStore = () => {
       ellipsis: true,
       render: (text, record) => {
         let str = record.created_at
-        str = str.substring(0, str.length - 8);
-        str = str.replace('T', ' ')
+        // str = str.substring(0, str.length - 8);
+        // str = str.replace('T', ' ')
         return str
       }
     },

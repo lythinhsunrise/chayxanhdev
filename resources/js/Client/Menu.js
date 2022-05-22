@@ -21,26 +21,32 @@ const MenuHome = () => {
           <Spin tip="Loading..." spinning={loading}>
 
             <Card title="Món khai vị" bordered={false}>
-              {itemMenu && itemMenu.map((item) => {
-                if (item.category == 1) return <MenuHomeItem key={item.id} item={item} />
-              })}
+              <Row gutter={[0, 24]}>
+                {itemMenu && itemMenu.map((item) => {
+                  if (item.category == 1) return <MenuHomeItem key={item.id} item={item} />
+                })}
+              </Row>
             </Card>
             <Card title="Món chính" bordered={false}>
-              <Row>
+              <Row gutter={[0, 24]}>
                 {itemMenu && itemMenu.map((item) => {
                   if (item.category == 2) return <MenuHomeItem key={item.id} item={item} />
                 })}
               </Row>
             </Card>
             <Card title="Món đặc biệt" bordered={false}>
-              {itemMenu && itemMenu.map((item) => {
-                if (item.category == 3) return <MenuHomeItem key={item.id} item={item} />
-              })}
+              <Row gutter={[0, 24]}>
+                {itemMenu && itemMenu.map((item) => {
+                  if (item.category == 3) return <MenuHomeItem key={item.id} item={item} />
+                })}
+              </Row>
             </Card>
-            <Card title="Món đặc biệt" bordered={false}>
-              {itemMenu && itemMenu.map((item) => {
-                if (item.category == 3) return <MenuHomeItem key={item.id} item={item} />
-              })}
+            <Card title="Nước giải khát" bordered={false}>
+              <Row gutter={[0, 24]}>
+                {itemMenu && itemMenu.map((item) => {
+                  if (item.category == 4) return <MenuHomeItem key={item.id} item={item} />
+                })}
+              </Row>
             </Card>
           </Spin>
         </Card>

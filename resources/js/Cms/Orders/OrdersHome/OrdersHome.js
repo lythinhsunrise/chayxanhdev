@@ -9,13 +9,14 @@ const OrdersHome = () => {
   let navigate = useNavigate();
   const { getListOrders, deleteOrder } = useContext(AppContext);
   const [data, setData] = useState();
-  const [loadingTable, setLoadingTable] = useState(false);
+  const [loadingTable, setLoadingTable] = useState(true);
+  const [change, setChange] = useState(false);
   useEffect(() => {
     getListOrders(1).then((response) => {
       setData(response.data.data)
       setLoadingTable(false)
     })
-  }, [])
+  }, [change])
   const list_status_order = [
     {
       text: "Chưa thanh toán",
@@ -35,6 +36,16 @@ const OrdersHome = () => {
       width: 50,
     },
     {
+      title: 'Hình thức thanh toán',
+      dataIndex: 'payment_id',
+      width: 150,
+      render: (value, record) => {
+        if(record.payment_id === 1) return <Tag color="gold">Tiền mặt (COD)</Tag>
+        if(record.payment_id === 2) return <Tag color="green">Chuyển khoản</Tag>
+        if(record.payment_id === 3) return <Tag color="pink">Momo</Tag>
+      }
+    },
+    {
       title: 'Thanh toán',
       dataIndex: 'payment_status',
       width: 150,
@@ -42,7 +53,8 @@ const OrdersHome = () => {
         if (record.payment_status === 0) return <Tag color="red">Chưa thanh toán</Tag>
         if (record.payment_status === 1) return <Tag color="green">Đã thanh toán</Tag>
       }
-    },    {
+    },
+    {
       title: 'Trạng thái',
       dataIndex: 'status_order_id',
       width: 150,
@@ -67,9 +79,10 @@ const OrdersHome = () => {
       }
     },
     {
-      title: 'Notes',
-      dataIndex: 'notes',
-      key: 'notes',
+      title: 'SDT',
+      dataIndex: 'phone',
+      key: 'phone',
+      ellipsis: true,
     },
     {
       title: 'Thời gian tạo đơn',
@@ -78,8 +91,8 @@ const OrdersHome = () => {
       ellipsis: true,
       render: (text, record) => {
         let str = record.created_at
-        str = str.substring(0, str.length - 8);
-        str = str.replace('T', ' ')
+        // str = str.substring(0, str.length - 8);
+        // str = str.replace('T', ' ')
         return str
       }
     },
@@ -118,6 +131,7 @@ const OrdersHome = () => {
       </Breadcrumb>
       <div className="site-layout-background" style={{ padding: 16, minHeight: 480 }}>
         {/* <Button type='primary' style={{ marginBottom: '16px' }}><Link to="/admin/orders_home/detail">Đơn hàng mới</Link></Button> */}
+        <Button type='primary' style={{ marginBottom: '16px' }} onClick={() => setChange(!change)}>Refresh</Button>
         <Table
           bordered
           scroll={{ x: 980 }}

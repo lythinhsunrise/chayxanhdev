@@ -205,6 +205,9 @@ const Provider = ({ children }) => {
     storeByUser: (values) => {
       return axios.post(`/api/store_by_user`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    updateByUserOrder: (values) => {
+      return axios.post(`/api/orders/update_by_user`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
     //Qtyfoods
     getListQtyFoods: (store_id) => {
       if (store_id) {

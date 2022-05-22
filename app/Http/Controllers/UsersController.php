@@ -32,7 +32,7 @@ class UsersController extends Controller
             $data = User::orderBy('id', 'DESC')->get();
         } else if ($store_id) {
             //User in store_id
-            $data = User::where('store_id', $store_id)->orderBy('id', 'DESC')->get();
+            $data = User::where(['store_id'=>$store_id])->orderBy('id', 'DESC')->get();
         }
         return response()->json([
             'status' => true,

@@ -1,28 +1,34 @@
-import { Steps } from 'antd';
+import { Button, Col, Popconfirm, Steps } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 const { Step } = Steps;
-const ItemOrder = ({order}) => {
+const ItemOrder = ({ order, deleteOrderCus }) => {
+  let navigate = useNavigate();
   return (
     <>
-      <div className='menuItem-cart'>
-        <div className='leftItem-cart'>
-          <b>#{order.id}</b>
-          <br />
-          Tổng tiền <br />
-          <b>{order.money}VND</b>
-          <br />
-          Trạng thái <br />
-          <b>{order.payment_status ? <span style={{color: '#307839'}}>Đã thanh toán</span> : 'Chưa thanh toán'}</b>
-        </div>
-        <div className='rightItem-cart'>
-          <Steps current={order.status_order_id}>
-            <Step title="Chờ xử lý" description="Đơn hàng đã được ghi nhận!" />
-            <Step title="Đang chuẩn bị" description="Đơn hàng đang chuẩn bị" />
-            <Step title="Hoàn thành" description="Đơn hoàn thành" />
-          </Steps>
-        </div>
-      </div>
-      <br />
+      <Col xs={{ span: 24, offset: 0 }} md={{ span: 2, offset: 0 }} >
+        <b>#{order.id}</b>
+        <br />
+        Tổng tiền <br />
+        <b>{`${order.money} VND`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</b>
+        <br />
+        Trạng thái <br />
+        {order.payment_status ? <b style={{ color: '#307839' }}>Đã thanh toán</b> : <b style={{ color: '#FF0000' }}>Chưa thanh toán</b>}
+      </Col>
+      <Col xs={{ span: 24, offset: 0 }} md={{ span: 20, offset: 0 }} >
+        <Steps current={order.status_order_id}>
+          <Step title="Chờ xử lý" description="Đơn hàng đã được ghi nhận!" />
+          <Step title="Đang chuẩn bị" description="Đơn hàng đã được duyệt!" />
+          <Step title="Hoàn thành" description="Đã giao" />
+        </Steps>
+      </Col>
+      <Col xs={{ span: 24, offset: 0 }} md={{ span: 2, offset: 0 }} >
+        <Button type="link" size="small" onClick={() => navigate(`/my-order/${order.id}`)}><EditOutlined /></Button>
+        {order.status_order_id > 0 ? null : <Popconfirm title="Hủy đơn này?" placement="leftTop" onConfirm={() => deleteOrderCus(order.id)}>
+          <Button type="link" size="small" danger><DeleteOutlined /></Button>
+        </Popconfirm>}
+      </Col>
     </>
   )
 }
