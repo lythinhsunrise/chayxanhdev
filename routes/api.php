@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\FoodSPController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\MenuController;
@@ -70,3 +71,11 @@ Route::post('/booking/delete/{id}', [BookingController::class, 'delete'])->middl
 //PaymentMomo
 Route::post('/momo-payment', [OrderController::class, 'paymentWithMomo']);
 Route::post('/momo-success', [OrderController::class, 'paymentMomoSuccess']);
+
+//FoodSP
+Route::get('/food_sp/getlist', [FoodSPController::class, 'getlist']);
+Route::get('/food_sp/{id}', [FoodSPController::class, 'getitem'])->middleware('auth:sanctum');
+Route::post('/food_sp', [FoodSPController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/food_sp/update', [FoodSPController::class, 'update'])->middleware('auth:sanctum');
+Route::post('/food_sp/delete/{id}', [FoodSPController::class, 'delete'])->middleware('auth:sanctum');
+Route::post('/food_sp/update_accept', [FoodSPController::class, 'update_accept'])->middleware('auth:sanctum');

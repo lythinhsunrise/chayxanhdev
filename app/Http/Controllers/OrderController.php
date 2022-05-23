@@ -291,6 +291,7 @@ class OrderController extends Controller
     public function paymentWithMomo(Request $request)
     {
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+        // $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
 
 
         // $partnerCode = 'MOMOBKUN20180529';
@@ -305,6 +306,9 @@ class OrderController extends Controller
         $partnerCode = 'MOMOBKUN20180529';
         $accessKey = 'klm05TvNBzhg7h7j';
         $serectkey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+        // $partnerCode = 'MOMOIQA420180417';
+        // $accessKey = 'SvDmj2cOTYZmQQ3H';
+        // $serectkey = 'PPuDXq1KowPT1ftR8DvlQTHhC03aul17';
         $orderId = $request->orderId; // Mã đơn hàng
         $orderInfo = 'Thanh toán qua MoMo';
         $amount = $request->amount;
@@ -314,9 +318,11 @@ class OrderController extends Controller
 
         $requestId = time() . "";
         $requestType = "captureWallet";
+        // $requestType = "captureMoMoWallet";
         // $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
         //before sign HMAC SHA256 signature
         $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
+        // $rawHash = "partnerCode=" . $partnerCode . "&accessKey=" . $accessKey . "&requestId=" . $requestId . "&amount=" . $amount . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&returnUrl=" . $redirectUrl . "&notifyUrl=" . $redirectUrl . "&extraData=" . $extraData;
         $signature = hash_hmac("sha256", $rawHash, $serectkey);
         $data = array(
             'partnerCode' => $partnerCode,
@@ -331,11 +337,15 @@ class OrderController extends Controller
             'lang' => 'vi',
             'extraData' => $extraData,
             'requestType' => $requestType,
-            'signature' => $signature
+            // 'signature' => $signature,
+            // 'accessKey' => $accessKey,
+            // 'notifyUrl' => $redirectUrl,
+            // 'returnUrl' => $redirectUrl
         );
+        // dd($data)
         $result = $this->execPostRequest($endpoint, json_encode($data));
         $jsonResult = json_decode($result, true);  // decode json
-        // dd($jsonResult);
+        dd($jsonResult);
         if($jsonResult['payUrl']){
             return response()->json([
                 'status' => true,

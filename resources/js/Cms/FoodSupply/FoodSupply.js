@@ -1,4 +1,4 @@
-import { DeleteOutlined, CheckSquareOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Popconfirm, Space, Table, Tag } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,21 +7,19 @@ import { AppContext } from '../../store';
 
 const FoodSupply = () => {
   let navigate = useNavigate();
-  const { getListBookings, deleteBooking, user, updateBooking, getListStores } = useContext(AppContext);
+  const { getListStores, getListFoodSP, deleteStore } = useContext(AppContext);
   const [data, setData] = useState();
-  const [loadingTable, setLoadingTable] = useState(false);
   const [stores, setStores] = useState();
-  
-  // useEffect(() => {
-  //   getListBookings(user.store_id).then((response) => {
-  //     setData(response.data.data)
-  //     getListStores().then((response) => {
-  //       setStores(response.data.data)
-  //       setLoadingTable(false)
-  //     })
-  //     setLoadingTable(false)
-  //   })
-  // }, [])
+  const [loadingTable, setLoadingTable] = useState(true);
+  useEffect(() => {
+    getListFoodSP().then((res) => {
+      setData(res.data.data)
+      getListStores().then((res) => {
+        setStores(res.data.data)
+        setLoadingTable(false)
+      })
+    })
+  }, [])
 
   const columns = [
     {
@@ -35,40 +33,14 @@ const FoodSupply = () => {
       dataIndex: 'status',
       key: 'status',
       render: (value, record) => {
-        if (record.status === 0) return <Tag color="purple">Chờ duyệt</Tag>
-        if (record.status === 1) return <Tag color="green">Đã Duyệt</Tag>
+        if (record.status === 0) return <Tag color="red">Chờ chấp thuận</Tag>
+        if (record.status === 1) return <Tag color="green">Đã chấp thuận</Tag>
       }
     },
     {
-      title: 'Tên KH',
-      dataIndex: 'name',
-      key: 'name',
-      width: 160
-    },
-    {
-      title: 'SĐT',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
-    {
-      title: 'Ngày đặt',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: 'Thời gian',
-      dataIndex: 'time',
-      key: 'time',
-    },
-    {
-      title: 'SL Khách',
-      dataIndex: 'guest',
-      key: 'guest',
-    },
-    {
-      title: 'Chi nhánh',
-      dataIndex: 'store_id',
-      key: 'store_id',
+      title: 'Cửa hàng nhận',
+      dataIndex: 'id_store_get',
+      key: 'id_store_get',
       render: (store_id) => {
         let store_text = stores ? stores.find(item => item.id == store_id) : null;
         return (
@@ -77,33 +49,39 @@ const FoodSupply = () => {
       }
     },
     {
+      title: 'Cửa hàng gửi',
+      dataIndex: 'id_store_share',
+      key: 'id_store_share',
+      render: (store_id) => {
+        let store_text = stores ? stores.find(item => item.id == store_id) : null;
+        return (
+          <>{store_text ? store_text.name : ""}</>
+        );
+      }
+    },
+    {
+      title: 'Notes',
+      dataIndex: 'notes',
+      key: 'notes',
+    },
+    {
       title: 'Action',
       key: 'action',
       width: 100,
       fixed: 'right',
       render: (text, record) => (
         <Space size="middle">
-          {record.status === 0 && <Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => update(record)}>
-            <Button type="link" size="small" ><CheckSquareOutlined /></Button>
-          </Popconfirm>}
-          {user.role_id == 1 &&<Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => remove(record)}>
-            <Button type="link" size="small" danger><DeleteOutlined /></Button>
-          </Popconfirm>}
+          <Button type="link" size="small" onClick={() => detail(record)}><FileSearchOutlined /></Button>
         </Space>
       ),
     },
   ];
-  const update = (record) => {
-    setLoadingTable(true)
-    record.status = 1
-    updateBooking(record).then((res) => {
-      openNotification(res.data);
-      setLoadingTable(false)
-    })
+  const detail = (record) => {
+    navigate(`/admin/foods_supply/detail/${record.id}`)
   }
   const remove = (record) => {
     setLoadingTable(true)
-    deleteBooking(record.id).then((res) => {
+    deleteStore(record.id).then((res) => {
       let newItems = data.filter(item => item.id !== record.id)
       setData(newItems)
       openNotification(res.data);
@@ -117,7 +95,7 @@ const FoodSupply = () => {
         <Breadcrumb.Item>Danh sách</Breadcrumb.Item>
       </Breadcrumb>
       <div className="site-layout-background" style={{ padding: 16, minHeight: 480 }}>
-        <Button type='primary' style={{ marginBottom: '16px' }}><Link to="/admin/orders/detail">Đơn hàng mới</Link></Button>
+        <Button type='primary' style={{ marginBottom: '16px' }}><Link to="/admin/foods_supply/store">Tạo yêu cầu mới</Link></Button>
         <Table
           bordered
           scroll={{ x: 980 }}

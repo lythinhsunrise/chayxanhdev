@@ -34,6 +34,9 @@ import BookingClient from './Client/BookingClient';
 import AboutUs from './Client/AboutUs';
 import FoodSupply from './Cms/FoodSupply/FoodSupply';
 import MyOrderDetail from './Client/MyOrderDetail';
+import DetailStoreSP from './Cms/FoodSupply/DetailStoreSP';
+import StoreSP from './Cms/FoodSupply/StoreSP';
+import DetailSP from './Cms/FoodSupply/DetailSP';
 
 
 function App() {
@@ -82,6 +85,9 @@ function App() {
           <Route path='booking/detail' element={<Booking />}/>
           <Route path='booking/detail/:id' element={<Booking/>}/>
           <Route path='foods_supply' element={<FoodSupply/>}/>
+          <Route path='foods_supply/detail/:id' element={<DetailSP/>}/>
+          <Route path='foods_supply/store' element={<StoreSP/>}/>
+          <Route path='foods_supply/store/detail/:id' element={<DetailStoreSP/>}/>
         </Route>
       </Routes>
     </div>

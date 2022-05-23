@@ -243,7 +243,26 @@ const Provider = ({ children }) => {
     },
     momoSuccess: (values) => {
       return axios.post(`/api/momo-success`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
-    }
+    },
+    //FoodSP
+    getListFoodSP: () => {
+      return axios.get('/api/food_sp/getlist', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    getFoodSPByID: (id) => {
+      return axios.get(`/api/food_sp/${id}`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    storeFoodSP: (values) => {
+      return axios.post(`/api/food_sp`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateFoodSP: (values) => {
+      return axios.post(`/api/food_sp/update`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    deleteFoodSP: (id) => {
+      return axios.post(`/api/food_sp/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    updateAcceptFoodSP: (values) => {
+      return axios.post(`/api/food_sp/update_accept`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
   };
 
   return (

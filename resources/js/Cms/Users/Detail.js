@@ -61,6 +61,9 @@ const DetailUser = () => {
     } else {
       form.validateFields().then((values) => {
         setLoadingForm(true)
+        if(user.role_id === 2){
+          values.store_id = user.store_id
+        }
         storeUser(values).then((res) => {
           openNotification(res.data);
           setLoadingForm(false)
