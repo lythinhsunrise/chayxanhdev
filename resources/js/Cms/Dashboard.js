@@ -90,7 +90,7 @@ const Dashboard = () => {
     if (rawData) {
       rawData.map((i) => {
         arr.push(parseInt(i.money))
-        arrData.push(i.created_at.slice(0, 9))
+        arrData.push(i.created_at.slice(0, 10))
       })
     }
     let series = [{

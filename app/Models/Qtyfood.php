@@ -9,4 +9,9 @@ class Qtyfood extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        'id_food' => 'integer',
+        'id_store' => 'integer',
+        'qty' => 'integer',
+    ];
 }

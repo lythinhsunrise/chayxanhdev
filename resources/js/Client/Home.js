@@ -12,7 +12,8 @@ const Home = () => {
   
   useEffect(()=> {
     let orderId = searchParams.get("orderId")
-    if(orderId){
+    let resultCode = searchParams.get("resultCode")
+    if(resultCode == 0){
       console.log(orderId)
       momoSuccess({orderId}).then((res)=>{
         openNotification(res.data)
