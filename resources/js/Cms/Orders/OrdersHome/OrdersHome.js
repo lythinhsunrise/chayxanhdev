@@ -17,17 +17,46 @@ const OrdersHome = () => {
       setLoadingTable(false)
     })
   }, [change])
-  const list_status_order = [
+  const list_payment_status = [
     {
       text: "Chưa thanh toán",
       value: 0,
     },
     {
-      text: "Đã thanh toán",
+      text: "Thanh toán",
       value: 1,
     },
   ]
 
+  const list_status_order = [
+    {
+      text: "Chờ xác nhận",
+      value: 0,
+    },
+    {
+      text: "Đơn hàng mới",
+      value: 1,
+    },
+    {
+      text: "Đã hoàn thành",
+      value: 4,
+    },
+  ]
+
+  const list_payment_id = [
+    {
+      text: "Tiền mặt (COD)",
+      value: 1
+    },
+    // {
+    //   text: "Chuyển khoản",
+    //   value: 2
+    // },
+    {
+      text: "Momo",
+      value: 3
+    },
+  ]
   const columns = [
     {
       title: 'ID',
@@ -39,6 +68,8 @@ const OrdersHome = () => {
       title: 'Hình thức thanh toán',
       dataIndex: 'payment_id',
       width: 150,
+      filters: list_payment_id,
+      onFilter: (value, record) => record.payment_id == value,
       render: (value, record) => {
         if(record.payment_id === 1) return <Tag color="gold">Tiền mặt (COD)</Tag>
         if(record.payment_id === 2) return <Tag color="green">Chuyển khoản</Tag>
@@ -49,6 +80,8 @@ const OrdersHome = () => {
       title: 'Thanh toán',
       dataIndex: 'payment_status',
       width: 150,
+      filters: list_payment_status,
+      onFilter: (value, record) => record.payment_status == value,
       render: (value, record) => {
         if (record.payment_status === 0) return <Tag color="red">Chưa thanh toán</Tag>
         if (record.payment_status === 1) return <Tag color="green">Đã thanh toán</Tag>
@@ -60,6 +93,8 @@ const OrdersHome = () => {
       width: 150,
       // filters: list_status_order,
       // onFilter: (value, record) => record.status_order_id == value,
+      filters: list_status_order,
+      onFilter: (value, record) => record.status_order_id == value,
       render: (value, record) => {
         if(record.status_order_id === 0) return <Tag color="purple">Chờ xác nhận</Tag>
         if(record.status_order_id === 1) return <Tag color="blue">Đơn hàng mới</Tag>

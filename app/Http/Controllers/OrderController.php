@@ -337,7 +337,7 @@ class OrderController extends Controller
             'lang' => 'vi',
             'extraData' => $extraData,
             'requestType' => $requestType,
-            // 'signature' => $signature,
+            'signature' => $signature,
             // 'accessKey' => $accessKey,
             // 'notifyUrl' => $redirectUrl,
             // 'returnUrl' => $redirectUrl
@@ -345,7 +345,7 @@ class OrderController extends Controller
         // dd($data)
         $result = $this->execPostRequest($endpoint, json_encode($data));
         $jsonResult = json_decode($result, true);  // decode json
-        dd($jsonResult);
+        // dd($jsonResult);
         if($jsonResult['payUrl']){
             return response()->json([
                 'status' => true,

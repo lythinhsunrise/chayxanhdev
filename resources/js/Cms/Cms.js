@@ -2,7 +2,7 @@ import {
   DesktopOutlined, DownOutlined, HomeOutlined, ProfileOutlined, UserOutlined
 } from '@ant-design/icons';
 import { Avatar, Dropdown, Layout, Menu } from 'antd';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { AppContext } from '../store';
 
@@ -27,7 +27,17 @@ const menu = (
 );
 
 const Cms = () => {
-  const { user } = useContext(AppContext);
+  const { user, getListStores } = useContext(AppContext);
+  const [ storeName, setStoreName ] = useState("");
+  useEffect(() => {
+    getListStores().then((res) => {
+      res.data.data.map((i) => {
+        if(i.id === user.store_id){
+          setStoreName(i.name);
+        } 
+      })
+    })
+  },[])
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
@@ -81,6 +91,7 @@ const Cms = () => {
       </Sider>
       <Layout>
         <Header style={{ background: '#fff' }} >
+          Chi nhánh: {storeName} {user.role_id==1?"Tất cả chi nhánh":""}
           <div className="login">
             <>
               <Avatar icon={<UserOutlined />} />

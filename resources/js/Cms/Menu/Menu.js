@@ -64,21 +64,30 @@ const Menu = () => {
       key: 'category',
       dataIndex: 'category',
       width: 120,
-      // filters: [
-      //   {
-      //     text: 'Món Khai Vị',
-      //     value: 'Món Khai Vị',
-      //   },
-      //   {
-      //     text: 'Món Chính',
-      //     value: 'Món Chính',
-      //   },
-      //   {
-      //     text: 'Món Đặc Biệt',
-      //     value: 'Món Đặc Biệt',
-      //   },
-      // ],
-      // onFilter: (value, record) => record.category.indexOf(value) === 0,
+      filters: [
+        {
+          text: 'Món Khai Vị',
+          value: 1,
+        },
+        {
+          text: 'Món Chính',
+          value: 2,
+        },
+        {
+          text: 'Món Đặc Biệt',
+          value: 3,
+        },
+        {
+          text: 'Nước giải khát',
+          value: 4,
+        },
+      ],
+      onFilter: (value, record) => record.category == value,
+      // render: (value, record) => {
+      //   if (record.payment_status === "Món Đặc Biệt") return <Tag color="red">Món Đặc Biệt</Tag>
+      //   if (record.payment_status === "Món Chính") return <Tag color="green">Món Chính</Tag>
+      //   if (record.payment_status === "Món Khai Vị") return <Tag color="green">Món Chính</Tag>
+      // }
       // render: category => {
       //   let color = 'gray';
       //   category === 'Món Chính' ? color = 'green' : color = 'geekblue'

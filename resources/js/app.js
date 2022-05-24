@@ -37,6 +37,7 @@ import MyOrderDetail from './Client/MyOrderDetail';
 import DetailStoreSP from './Cms/FoodSupply/DetailStoreSP';
 import StoreSP from './Cms/FoodSupply/StoreSP';
 import DetailSP from './Cms/FoodSupply/DetailSP';
+import Dashboard from './Cms/Dashboard';
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
           <Route path='/logout' element={<Logout />} />
         </Route>
         <Route path='/admin' element={<PrivateOutlet />}>
+          <Route index element={<Dashboard />} />
           <Route path='users' element={<Users />}/>
           <Route path='users/detail' element={<DetailUser />}/>
           <Route path='users/detail/:id' element={<DetailUser/>}/>

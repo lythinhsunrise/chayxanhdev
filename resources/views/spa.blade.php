@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>ChayXanhDev</title>
+        <title>ChayXanh-IUH</title>
         <link rel="icon" type="image/png" href="/images/logo.png"/>
         {{-- <link href="{{asset('css/index.css')}}" rel="stylesheet" type="text/css"> --}}
         <script type="text/javascript">
@@ -13,6 +13,6 @@
     </head>
     <body>
         <div id="app"></div>
-        <script src="{{asset('js/index.js')}}?v=2.0" ></script>
+        <script src="{{asset('js/index.js')}}?v=3.0" ></script>
     </body>
 </html>

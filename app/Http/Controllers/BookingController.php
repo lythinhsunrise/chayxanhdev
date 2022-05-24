@@ -11,7 +11,7 @@ class BookingController extends Controller
     public function getlist(Request $request)
     {
         $store_id = $request->query('store_id');
-        if($store_id == null){
+        if($store_id == null || $store_id == 0){
             //All Booking
             $data = Booking::orderBy('id', 'DESC')->get();
         } else if ($store_id) {

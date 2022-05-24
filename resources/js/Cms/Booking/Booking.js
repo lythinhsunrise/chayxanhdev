@@ -11,6 +11,7 @@ const Booking = () => {
   const [data, setData] = useState();
   const [loadingTable, setLoadingTable] = useState(true);
   const [stores, setStores] = useState();
+  const [change, setChange] = useState(false);
   
   useEffect(() => {
     getListBookings(user.store_id).then((response) => {
@@ -21,7 +22,7 @@ const Booking = () => {
       })
       setLoadingTable(false)
     })
-  }, [])
+  }, [change])
 
   const columns = [
     {
@@ -117,6 +118,7 @@ const Booking = () => {
         <Breadcrumb.Item>Danh sách</Breadcrumb.Item>
       </Breadcrumb>
       <div className="site-layout-background" style={{ padding: 16, minHeight: 480 }}>
+        <Button type='primary' style={{ marginBottom: '16px' }} onClick={() => setChange(!change)}>Refresh</Button>
         <Table
           bordered
           scroll={{ x: 980 }}

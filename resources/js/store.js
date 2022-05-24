@@ -138,6 +138,9 @@ const Provider = ({ children }) => {
     deleteUser: (id) => {
       return axios.post(`/api/users/delete/${id}`, '', { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
+    getListUsersMG: (values) => {
+      return axios.post(`/api/users/getlistManager`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
     // Me
     getMe: () => {
       return axios.get(`/api/me`, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
@@ -262,6 +265,13 @@ const Provider = ({ children }) => {
     },
     updateAcceptFoodSP: (values) => {
       return axios.post(`/api/food_sp/update_accept`, values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    //Dashboard
+    revenue_store: (values) => {
+      return axios.post('/api/revenue_store', values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
+    },
+    revenue_by_day_store: (values) => {
+      return axios.post('/api/revenue_by_day_store', values, { headers: { "Authorization": `Bearer ${state.user.access_token}` } })
     },
   };
 

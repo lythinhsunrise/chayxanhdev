@@ -142,4 +142,20 @@ class UsersController extends Controller
             'message' => 'Delete successfully!',
         ]);
     }
+
+    public function getlistManager(Request $request)
+    {
+        $store_id = $request->store_id;
+        if($store_id == 0){
+            //All User
+            $data = User::where('role_id','>',1)->orderBy('id', 'DESC')->get();
+        } else if ($store_id) {
+            //User in store_id
+            $data = User::where('store_id','=',$store_id)->where('role_id','>',0)->orderBy('id', 'DESC')->get();
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $data,
+        ]);
+    }
 }

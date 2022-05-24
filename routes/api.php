@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FoodSPController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StoreController;
@@ -36,6 +37,7 @@ Route::get('/users/{id}', [UsersController::class, 'getitem'])->middleware('auth
 Route::post('/users', [UsersController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/users/update', [UsersController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/users/delete/{id}', [UsersController::class, 'delete'])->middleware('auth:sanctum');
+Route::post('/users/getlistManager', [UsersController::class, 'getlistManager'])->middleware('auth:sanctum');
 //Stores
 Route::get('/stores/getlist', [StoreController::class, 'getlist']);
 Route::get('/stores/{id}', [StoreController::class, 'getitem'])->middleware('auth:sanctum');
@@ -79,3 +81,7 @@ Route::post('/food_sp', [FoodSPController::class, 'store'])->middleware('auth:sa
 Route::post('/food_sp/update', [FoodSPController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/food_sp/delete/{id}', [FoodSPController::class, 'delete'])->middleware('auth:sanctum');
 Route::post('/food_sp/update_accept', [FoodSPController::class, 'update_accept'])->middleware('auth:sanctum');
+
+//Dashboard
+Route::post('/revenue_store', [DashboardController::class, 'revenue_store']);
+Route::post('/revenue_by_day_store', [DashboardController::class, 'revenue_by_day_store']);

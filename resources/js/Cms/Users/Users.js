@@ -23,7 +23,7 @@ const Users = () => {
   }, [])
 
   const role = [
-    { text: 'Khách hàng', value: 0 },
+    { text: 'Khách hàng', value: null },
     { text: 'Nhân viên', value: 3 },
     { text: 'Quản lý chi nhánh', value: 2 },
     { text: 'Quản lý tổng', value: 1 },
