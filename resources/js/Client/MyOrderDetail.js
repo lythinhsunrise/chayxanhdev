@@ -119,7 +119,7 @@ const MyOrderDetail = () => {
   }
 
   const operations = <>
-    {item.status_order_id === 0 ? <Button type="primary" onClick={onUpdate} style={{ marginRight: 8 }}>
+    {(item.status_order_id === 0 && item.payment_status === 0)  ? <Button type="primary" onClick={onUpdate} style={{ marginRight: 8 }}>
       Cập nhật đơn hàng 
     </Button> : null }
     <Button onClick={() => navigate("/my-order")} icon={<RollbackOutlined />}>
@@ -182,7 +182,7 @@ const MyOrderDetail = () => {
                 </Col>
               </Row>
               <br />
-              {item.status_order_id === 0 ? <Button type="primary" onClick={showDrawer}>
+              {(item.status_order_id === 0 && item.payment_status === 0) ? <Button type="primary" onClick={showDrawer}>
                 Chọn món
               </Button> : null}
               <Drawer

@@ -25,7 +25,7 @@ const ItemOrder = ({ order, deleteOrderCus }) => {
       </Col>
       <Col xs={{ span: 24, offset: 0 }} md={{ span: 2, offset: 0 }} >
         <Button type="link" size="small" onClick={() => navigate(`/my-order/${order.id}`)}><EditOutlined /></Button>
-        {order.status_order_id > 0 ? null : <Popconfirm title="Hủy đơn này?" placement="leftTop" onConfirm={() => deleteOrderCus(order.id)}>
+        {(order.status_order_id > 0 || order.payment_status === 1) ? null : <Popconfirm title="Hủy đơn này?" placement="leftTop" onConfirm={() => deleteOrderCus(order.id)}>
           <Button type="link" size="small" danger><DeleteOutlined /></Button>
         </Popconfirm>}
       </Col>

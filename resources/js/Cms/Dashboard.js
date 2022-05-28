@@ -40,12 +40,12 @@ const initchartData = {
   },
 };
 const Dashboard = () => {
+  const { user, getListStores, revenue_store, getListUsersMG, getListBookings, revenue_by_day_store } = useContext(AppContext);
   const [data, setData] = useState({
     time_start: '2022-05-01',
     time_end: '2022-05-31',
-    store_id: 0,
+    store_id: user ? user.store_id : 0,
   });
-  const { user, getListStores, revenue_store, getListUsersMG, getListBookings, revenue_by_day_store } = useContext(AppContext);
   const [stores, setStores] = useState();
   const [revenue, setRevenue] = useState();
   const [totalOrder, setTotalOrder] = useState();

@@ -7,7 +7,7 @@ import { AppContext } from '../../../store';
 
 const OrdersStore = () => {
   let navigate = useNavigate();
-  const { getListOrders, deleteOrder, getListUsers } = useContext(AppContext);
+  const { user, getListOrders, deleteOrder, getListUsers } = useContext(AppContext);
   const [data, setData] = useState();
   const [loadingTable, setLoadingTable] = useState(true);
   const [users, setUsers] = useState();
@@ -106,6 +106,9 @@ const OrdersStore = () => {
     navigate(`/admin/orders_store/detail/${record.id}`)
   }
   const remove = (record) => {
+    if(user.role_id === 3){
+      return;
+    }
     setLoadingTable(true)
     deleteOrder(record.id).then((res) => {
       let newItems = data.filter(item => item.id !== record.id)

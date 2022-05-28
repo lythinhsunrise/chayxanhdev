@@ -87,7 +87,7 @@ const Booking = () => {
           {record.status === 0 && <Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => update(record)}>
             <Button type="link" size="small" ><CheckSquareOutlined /></Button>
           </Popconfirm>}
-          {user.role_id == 1 &&<Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => remove(record)}>
+          {user.role_id < 3 &&<Popconfirm title="Are you sure ?" placement="leftTop" onConfirm={() => remove(record)}>
             <Button type="link" size="small" danger><DeleteOutlined /></Button>
           </Popconfirm>}
         </Space>
